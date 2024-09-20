@@ -1,7 +1,7 @@
-# Kletis
+# Klėtis
 Saityno taikomųjų programų projektavimas
 
-Ž. Ūkio forumas Kletis
+Ž. Ūkio forumas Klėtis
 
 Iš esmės reddit klonas
 
@@ -14,6 +14,11 @@ DB lentelės:
 user
 post/comment
 topic
+
+User roles:
+svečias
+administratorius 
+naudotojas
 
 frontend: react/vue.js/Blazor
 backend: java/node.js/ASP.NET
