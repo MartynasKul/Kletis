@@ -18,9 +18,9 @@ topic
 User roles:
 svečias
 administratorius 
-naudotojas
+moderatorius
 
 frontend: react/vue.js/Blazor
-backend: java/node.js/ASP.NET
+backend: node.js/express
 
 IF EVERYTHING FAILS dotnet with swagger(OpenAPI)
