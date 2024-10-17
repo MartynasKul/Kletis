@@ -2,12 +2,20 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 
-const usersController = require('./controllers/usersController');
-const postsController = require('./controllers/postsController');
-const tractorsController = require('./controllers/tractorsController');
-const commentsController = require('./controllers/commentsController');
+//const usersController = require('./controllers/usersController');
+//const postsController = require('./controllers/postsController');
+//const tractorsController = require('./controllers/tractorsController');
+//const commentsController = require('./controllers/commentsController');
 
-mongoose.connect(process.env.MONGODB_URI, {})
+//routes
+const postRoutes = require('./routes/postRoutes');
+const commentRoutes = require('./routes/commentRoutes');
+const userRoutes = require('./routes/userRoutes');
+const tractorRoutes = require('./routes/tractorRoutes');
+
+const dbURI = 'mongodb+srv://martonas:martonas@kletis.i1pta.mongodb.net/Kletis?retryWrites=true&w=majority&appName=Kletis'
+
+mongoose.connect(dbURI, {})
     .then(() => console.log('MongoDB Connected'))
     .catch((error) => console.log('Error connecting to MongoDB:', error))
 
@@ -16,24 +24,14 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
-// User routes
-app.get('/users', usersController.getAllUsers)
-app.get('/users/:id', usersController.getUserById)
-app.post('/users', usersController.createUser)
-app.put('/users/:id', usersController.updateUser)
-app.delete('/users/:id', usersController.deleteUser)
+//routes
+app.use('/posts', postRoutes);
+app.use('/tractors', tractorRoutes);
+app.use('/users', userRoutes);
+app.use('/comments', commentRoutes);
 
-// Tractor routes
 
-// Post routes
 
-// Comment routes
-app.get('/comments', commentsController.getAllComments)
-app.get('/tractors/comments/:gameId', commentsController.getCommentsByGame)
-app.get('/comments/:id', commentsController.getCommentById)
-app.post('/comments', commentsController.createComment)
-app.put('/comments/:id', commentsController.updateComment)
-app.delete('/comments/:id', commentsController.deleteComment)
 
 // Start the server
 app.listen(PORT, () => {
