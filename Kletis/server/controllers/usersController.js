@@ -1,6 +1,6 @@
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
-const {configureExplicitResourceManagement} = require("mongodb/lib/beta");
+
 
 const isValidEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -23,16 +23,18 @@ exports.getAllUsers = async (req, res) => {
 
 exports.getUserById = async (req, res) => {
     try {
-        const user = await User.findById(req.params.id)
-        if(user){
-            res.json(user)
+        if(req.params.id.length !== 24) {
+            return res.status(404).json({ error: 'Invalid user ID format' });
         }
-        else{
-            res.status(404).json({error: 'User not found'})
+
+        const user = await User.findById(req.params.id);
+        if (user) {
+            res.json(user);
+        } else {
+            res.status(404).json({ error: 'User not found' });
         }
-    }
-    catch (error) {
-        res.status(500).json({error: 'Error fetching users'})
+    } catch (error) {
+        res.status(500).json({ error: 'Error fetching user' });
     }
 }
 
@@ -49,7 +51,9 @@ exports.createUser = async (req, res) => {
         if (!isValidEmail(email)) {
             return res.status(400).json({error: 'Invalid email format.'})
         }
-
+        if(!username || !email || !password || !type) {
+            return res.status(400).json({error: 'Cannot be empty fields in username, email, password or type'})
+        }
         const newUser = new User({
             username,
             email,
@@ -69,74 +73,51 @@ exports.createUser = async (req, res) => {
     }
 }
 
-// POST a new user
-
-exports.createUser = async (req, res) => {
-    try{
-        const {username, email, password, type} = req.body
-
-        const validTypes = ['admin', 'mod', 'guest']
-        if(!validTypes.includes(type)) {
-            return res.status(400).json({error: 'Invalid user type. Valid types are: admin, mod, guest'})
-        }
-        if(!isValidEmail(email)) {
-            return res.status(400).json({error: 'Invalid email format.'})
-        }
-
-        const newUser = new User({
-            username,
-            email,
-            password,
-            type,
-            created_at: new Date(),
-        })
-
-        const savedUser = await newUser.save()
-        res.status(201).json(savedUser)
-    }
-    catch(error){
-        if(error.code === 11000) {
-            res.status(400).json({error: 'Email already exists'})
-        } else{
-            res.status(500).json({error: 'Error creating user'})
-        }
-    }
-}
-
 // PUT (update) an existing user
 
 exports.updateUser = async (req, res) => {
-    try{
-        const {username, email, password, type} = req.body
-        const validTypes = ['admin', 'mod', 'guest']
+    try {
+        const { username, email, password, type } = req.body;
+        const validTypes = ['admin', 'mod', 'guest'];
 
-        if(!validTypes.includes(type)) {
-            return res.status(400).json({error: 'Invalid user type. Valid types are: admin, mod, guest'})
+        // Check for missing required fields
+        if (!username || !email || !type) {
+            return res.status(400).json({ error: 'Missing required fields: username, email, or type' });
         }
 
-        if(!isValidEmail(email)) {
-            return res.status(400).json({error: 'Invalid email format'})
+        // Validate user type
+        if (!validTypes.includes(type)) {
+            return res.status(400).json({ error: 'Invalid user type. Valid types are: admin, mod, guest' });
         }
 
-        let updatedData = {username, email, type}
-        if(password){
-            const salt = await bcrypt.genSalt(10)
-            updatedData.password = await bcrypt.hash(password, salt)
+        // Validate email format
+        if (!isValidEmail(email)) {
+            return res.status(400).json({ error: 'Invalid email format' });
         }
 
+        // Prepare updated data
+        let updatedData = { username, email, type };
+
+        // Hash the password if provided
+        if (password) {
+            const salt = await bcrypt.genSalt(10);
+            updatedData.password = await bcrypt.hash(password, salt);
+        }
+
+        // Perform full update (replacing the resource)
         const updatedUser = await User.findByIdAndUpdate(
             req.params.id,
             updatedData,
-            {new: true, runValidators: true}
-        )
+            { new: true, runValidators: true, overwrite: true } // Use `overwrite: true` for full replacement
+        );
 
-        if(updatedUser){
-            res.json(updatedUser)
-        } else{
-            res.status(404).json({ error: 'User not found'})
+        if (updatedUser) {
+            res.json(updatedUser);
+        } else {
+            res.status(404).json({ error: 'User not found' });
         }
-    } catch(error){
-        res.status(500).json({error: 'Error updating user'})
+    } catch (error) {
+        res.status(500).json({ error: 'Error updating user' });
     }
 }
 
