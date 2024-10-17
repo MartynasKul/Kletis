@@ -5,15 +5,16 @@ Saityno taikomųjų programų projektavimas
 
 Iš esmės reddit klonas
 
-hierarchija: Kategorija -> postas -> komentarai
+hierarchija: traktorius -> postas -> komentarai
 
 Forume turi galėti dėti postus po pasirinkta tema, postus komentuoti. komentarai/postai gali būti redaguojami ir trinami autorių arba adminų(maybe).
 iš esmės reddit klonas todėl postai iš visų temų bus matomi pagrindiniam ekrane
 
 DB lentelės:
 user
-post/comment
-topic
+tractor
+post
+comment
 
 User roles:
 svečias
