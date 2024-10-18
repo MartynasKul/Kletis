@@ -58,8 +58,8 @@ backend: node.js/express
 | Method | Route                         | Controller Function      | Description                             |
 |--------|-------------------------------|--------------------------|-----------------------------------------|
 | GET    | /comments                     | getComments              | Fetch all comments                      |
-| GET    | /comments/post/:postId         | getCommentsByPost        | Fetch all comments for a specific post  |
-| GET    | /comments/user/:userId         | getCommentsByUser        | Fetch all comments by a specific user   |
+| GET    | /comments/:postId/post/        | getCommentsByPost        | Fetch all comments for a specific post  |
+| GET    | /comments/:userIduser/         | getCommentsByUser        | Fetch all comments by a specific user   |
 | GET    | /comments/:id                  | getCommentById           | Fetch a specific comment by ID          |
 | POST   | /comments                     | createComment            | Create a new comment                    |
 | PUT    | /comments/:id                  | updateComment            | Update a specific comment by ID         |
