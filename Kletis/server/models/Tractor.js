@@ -16,18 +16,33 @@ const tractorSchema = new mongoose.Schema({
 //cascade delete jeigu subredditas bus panaikintas
 
 tractorSchema.pre('findOneAndDelete', async function (next) {
-    const tractorId = this.getQuery()["_id"]
+    try {
+        const tractorId = this.getQuery()["_id"];
 
-    // surandam visus esamus postus po tractorid
-    const posts = await Post.find({ tractor: tractorId });
+        // Import Post model here to avoid circular dependency
+        const Post = require('./Post');
+        const Comment = require('./Comment');
 
-    //istrinti visus komentarus po postais
-    for(let post of posts) {
-        await Comment.deleteMany({ post: post._id })
+        // Find all posts related to this tractor
+        const posts = await Post.find({ tractor: tractorId });
+
+        // Log posts for debugging
+        //console.log(`Posts found for tractor ${tractorId}:`, posts);
+
+        // Delete all comments related to the posts
+        for (let post of posts) {
+            //console.log(`Deleting comments for post ID: ${post._id}`);
+            await Comment.deleteMany({ post: post._id });
+        }
+
+        // Delete all posts under this tractor category
+        await Post.deleteMany({ tractor: tractorId });
+        //console.log(`Deleted all posts for tractor ${tractorId}`);
+
+        next();
+    } catch (error) {
+        //console.error("Error in pre delete hook:", error);
+        next(error);
     }
-    //istrinti visus postus to tractor kategorija
-    await Post.deleteMany({tractor: tractorId})
-
-    next()
 })
 module.exports = mongoose.model('Tractor', tractorSchema)

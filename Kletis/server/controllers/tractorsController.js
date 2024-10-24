@@ -86,9 +86,12 @@ exports.createTractor = async (req, res) => {
     try {
         const { name, description, created_by } = req.body;
 
+        let tractor = Tractor.find(name)
+        if(tractor){
+            return res.status(403).json({error: 'Tractor category with this name exists'})       }
         // Check if the 'created_by' field is present and valid
         if (!created_by) {
-            return res.status(400).json({ error: 'User ID (created_by) is required' });
+            return res.status(422).json({ error: 'User ID (created_by) is required' });
         }
 
         const user = await User.findById(created_by); // Validate if the user exists
@@ -139,7 +142,7 @@ exports.updateTractor = async (req, res) => {
 
         // Validate that all required fields are present
         if (!name || !description) {
-            return res.status(400).json({ error: 'Name and description are required for a full update' });
+            return res.status(422).json({ error: 'Name and description are required for a full update' });
         }
 
         // Find and update the tractor by ID

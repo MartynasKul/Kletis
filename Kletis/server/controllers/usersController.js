@@ -45,14 +45,14 @@ exports.createUser = async (req, res) => {
 
         const validTypes = ['admin', 'mod', 'guest']
         if (!validTypes.includes(type)) {
-            return res.status(400).json({error: 'Invalid user type. Valid types are: admin, mod, guest'})
+            return res.status(422).json({error: 'Invalid user type. Valid types are: admin, mod, guest'})
         }
 
         if (!isValidEmail(email)) {
-            return res.status(400).json({error: 'Invalid email format.'})
+            return res.status(422).json({error: 'Invalid email format.'})
         }
         if(!username || !email || !password || !type) {
-            return res.status(400).json({error: 'Cannot be empty fields in username, email, password or type'})
+            return res.status(422).json({error: 'Cannot be empty fields in username, email, password or type'})
         }
         const newUser = new User({
             username,
@@ -64,7 +64,7 @@ exports.createUser = async (req, res) => {
 
         const savedUser = await newUser.save()
         res.status(201).json(savedUser)
-    } catch {
+    } catch(error) {
         if (error.code === 11000) {
             res.status(400).json({error: 'Email already exists'})
         } else {
@@ -82,17 +82,17 @@ exports.updateUser = async (req, res) => {
 
         // Check for missing required fields
         if (!username || !email || !type) {
-            return res.status(400).json({ error: 'Missing required fields: username, email, or type' });
+            return res.status(422).json({ error: 'Missing required fields: username, email, or type' });
         }
 
         // Validate user type
         if (!validTypes.includes(type)) {
-            return res.status(400).json({ error: 'Invalid user type. Valid types are: admin, mod, guest' });
+            return res.status(422).json({ error: 'Invalid user type. Valid types are: admin, mod, guest' });
         }
 
         // Validate email format
         if (!isValidEmail(email)) {
-            return res.status(400).json({ error: 'Invalid email format' });
+            return res.status(422).json({ error: 'Invalid email format' });
         }
 
         // Prepare updated data
@@ -125,6 +125,7 @@ exports.updateUser = async (req, res) => {
 exports.deleteUser = async (req, res) => {
     try{
         const deletedUser = await User.findByIdAndDelete(req.params.id)
+
         if(deletedUser){
             res.json(deletedUser)
         } else{

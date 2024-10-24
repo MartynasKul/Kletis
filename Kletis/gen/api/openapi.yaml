@@ -1,0 +1,131 @@
+openapi: 3.0.0
+info:
+  description: API for managing tractor categories (subreddit equivalent)
+  title: Kletis Forum API - Tractors
+  version: 1.0.0
+servers:
+- description: Local development server
+  url: http://localhost:3000
+paths:
+  /tractors/:
+    get:
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Tractor'
+                type: array
+          description: List of all tractors
+        "500":
+          description: Server error
+      summary: Get all tractors
+      x-accepts:
+      - application/json
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Tractor'
+        required: true
+      responses:
+        "201":
+          description: Tractor created successfully
+        "422":
+          description: Validation error
+      summary: Create a new tractor category
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /tractors/{id}:
+    delete:
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: Tractor deleted successfully
+        "404":
+          description: Tractor not found
+        "500":
+          description: Server error
+      summary: Delete a tractor by ID
+      x-accepts:
+      - application/json
+    get:
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tractor'
+          description: Tractor found
+        "404":
+          description: Tractor not found
+      summary: Get tractor by ID
+      x-accepts:
+      - application/json
+    put:
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Tractor'
+        required: true
+      responses:
+        "200":
+          description: Tractor updated successfully
+        "404":
+          description: Tractor not found
+        "422":
+          description: Validation error
+      summary: Update a tractor by ID
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+components:
+  schemas:
+    Tractor:
+      example:
+        name: name
+        description: description
+        _id: _id
+        created_by: created_by
+      properties:
+        _id:
+          description: Unique identifier of the tractor category
+          type: string
+        name:
+          description: Name of the tractor category
+          type: string
+        description:
+          description: Description of the tractor category
+          type: string
+        created_by:
+          description: The ID of the user who created this tractor category
+          type: string
+      type: object
+

@@ -1,0 +1,114 @@
+
+openapi: 3.0.0
+info:
+  title: Kletis Forum API - Tractors
+  description: API for managing tractor categories (subreddit equivalent)
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+    description: Local development server
+
+paths:
+  /tractors/:
+    get:
+      summary: Get all tractors
+      responses:
+        '200':
+          description: List of all tractors
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tractor'
+        '500':
+          description: Server error
+
+    post:
+      summary: Create a new tractor category
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Tractor'
+      responses:
+        '201':
+          description: Tractor created successfully
+        '422':
+          description: Validation error
+
+  /tractors/{id}:
+    get:
+      summary: Get tractor by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Tractor found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tractor'
+        '404':
+          description: Tractor not found
+
+    put:
+      summary: Update a tractor by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Tractor'
+      responses:
+        '200':
+          description: Tractor updated successfully
+        '404':
+          description: Tractor not found
+        '422':
+          description: Validation error
+
+    delete:
+      summary: Delete a tractor by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Tractor deleted successfully
+        '404':
+          description: Tractor not found
+        '500':
+          description: Server error
+
+components:
+  schemas:
+    Tractor:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Unique identifier of the tractor category
+        name:
+          type: string
+          description: Name of the tractor category
+        description:
+          type: string
+          description: Description of the tractor category
+        created_by:
+          type: string
+          description: The ID of the user who created this tractor category
