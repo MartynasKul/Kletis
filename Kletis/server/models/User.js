@@ -20,11 +20,14 @@ userSchema.pre('save', async function (next) {
 })
 
 userSchema.pre('findOneAndDelete', async function (next) {
-    const userId = this.getQuery()["_id"]
-    console.log(userId)
-    await Comment.deleteMany({ userId })
-    //await Tractor.deleteMany({ userId }) cascading delete nera logiska naikinti subredditam. vistiek turi islikti jie.
-    next()
+    const userId = this.getQuery()["_id"]; // Get the user ID from the query
+
+    console.log('Deleting comments for user:', userId);
+
+    // Delete all comments where the "author" field matches the userId
+    await Comment.deleteMany({ author: userId });
+
+    next();
 })
 
 module.exports = mongoose.model('User', userSchema)

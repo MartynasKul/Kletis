@@ -7,16 +7,16 @@ exports.getPostsByTractor = async (req, res) => {
     try {
         const { expand } = req.query;
 
-        // Log the entire req.params to see its structure
-        console.log('Request parameters:', req.params);
 
-        // Access the tractorId parameter correctly
+        //console.log('Request parameters:', req.params);
+
+
         const tractorId = req.params.tractorId;
-        console.log('Tractor ID:', tractorId);
+        //console.log('Tractor ID:', tractorId);
 
-        // Check if the tractor exists
+
         const tractorCheck = await Tractor.findById(tractorId); // Await the query
-        console.log('Tractor Check:', tractorCheck);
+        //console.log('Tractor Check:', tractorCheck);
 
         if (!tractorCheck) {
             return res.status(404).send({ error: 'Tractor Not Found' });
@@ -95,9 +95,9 @@ exports.createPost = async (req, res) => {
             title, content, author, tractor
         } = req.body
 
-        // Check if all required fields are present
+
         if (!title || !content || !author || !tractor) {
-            return res.status(400).json({ error: 'Title, content, author, and tractor are required' });
+            return res.status(422).json({ error: 'Title, content, author, and tractor are required' });
         }
 
         const auThor = await User.findById(author)
@@ -132,9 +132,9 @@ exports.updatePost = async (req, res) => {
             title, content, author, tractor
         } = req.body
 
-        // Validate that all required fields are present
+
         if (!title || !content || !author || !tractor) {
-            return res.status(400).json({ error: 'Title, content, author, and tractor are required for a full update' });
+            return res.status(422).json({ error: 'Title, content, author, and tractor are required for a full update' });
         }
 
         if(tractor){
