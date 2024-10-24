@@ -25,7 +25,6 @@ frontend: react/vue.js/Blazor
 backend: node.js/express
 
 
-## Routing Table
 
 
 ## Routing Table
