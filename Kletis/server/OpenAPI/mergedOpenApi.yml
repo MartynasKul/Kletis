@@ -1,0 +1,502 @@
+openapi: 3.0.0
+info:
+  title: Kletis Forum API
+  description: Unified API for managing users, tractors, posts, and comments in the Tractor Forum
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+    description: Local development server
+
+paths:
+  /users/:
+    get:
+      summary: Get all users
+      responses:
+        '200':
+          description: List of all users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+    post:
+      summary: Create a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+            examples:
+              newUser:
+                value:
+                  username: "john_doe"
+                  email: "john@example.com"
+                  password: "securePassword"
+                  type: "guest"
+      responses:
+        '201':
+          description: User created successfully
+
+  /users/{id}/:
+    get:
+      summary: Get a user by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: User not found
+
+    put:
+      summary: Update a user by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+            examples:
+              updateUser:
+                value:
+                  username: "john_doe_updated"
+                  email: "john_updated@example.com"
+                  type: "mod"
+      responses:
+        '200':
+          description: User updated successfully
+
+    delete:
+      summary: Delete a user by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: User deleted successfully
+
+  /tractors/:
+    get:
+      summary: Get all tractors
+      responses:
+        '200':
+          description: List of all tractors
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tractor'
+    post:
+      summary: Create a new tractor category
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Tractor'
+            examples:
+              newTractor:
+                value:
+                  name: "Fendt"
+                  description: "Good tractor"
+                  created_by: "67101f6c63c35321098a2849"
+      responses:
+        '201':
+          description: Tractor created successfully
+
+  /tractors/{id}/:
+    get:
+      summary: Get tractor by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Tractor found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tractor'
+        '404':
+          description: Tractor not found
+
+    put:
+      summary: Update a tractor by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Tractor'
+            examples:
+              updateTractor:
+                value:
+                  name: "Fendt Updated"
+                  description: "Updated description"
+      responses:
+        '200':
+          description: Tractor updated successfully
+
+    delete:
+      summary: Delete a tractor by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Tractor deleted successfully
+
+  /posts/:
+    get:
+      summary: Get all posts
+      responses:
+        '200':
+          description: List of all posts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Post'
+        '500':
+          description: Server Error
+
+    post:
+      summary: Create a new post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Post'
+            examples:
+              newPost:
+                value:
+                  title: "How to start a tractor"
+                  content: "I'm having trouble starting my Fendt."
+                  author: "6711902302d2006ebfa751c1"
+                  tractor: "671197165fc435cd709fd102"
+      responses:
+        '201':
+          description: Post created successfully
+        '422':
+          description: Title, content, author, and tractor are required
+        '404':
+          description: User not found / Tractor not found
+        '400':
+          description: Bad request
+
+  /posts/{id}/:
+    get:
+      summary: Get a post by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Post found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+        '404':
+          description: Post not found
+        '500':
+          description: Server Error
+
+    put:
+      summary: Update a post by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Post'
+            examples:
+              updatePost:
+                value:
+                  title: "How to start a tractor (Updated)"
+                  content: "Updated content"
+      responses:
+        '200':
+          description: Post updated successfully
+        '422':
+          description: Title, content, author, and tractor are required for a full update
+        '404':
+          description: Tractor not found / Post not found
+        '400':
+          description: Bad request
+
+    delete:
+      summary: Delete a post by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Post deleted successfully
+        '404':
+          description: Post not found
+        '500':
+          description: Server error
+
+  /post/{postID}/comments/:
+    get:
+      summary: Get comments by post ID
+      parameters:
+        - in: path
+          name: postID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of comments for the specific post
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Comment'
+        '404':
+          description: Post not found
+        '500':
+          description: Server error
+
+  /user/{userId}/comments/:
+    get:
+      summary: Get comments by user ID
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of comments by the specific user
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Comment'
+        '404':
+          description: User not found / No Comments found
+        '400':
+          description: Bad or non-existent user Id
+        '500':
+          description: Server error
+
+  /comments/:
+    get:
+      summary: Get all comments
+      responses:
+        '200':
+          description: List of all comments
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Comment'
+        '500':
+          description: Server error
+    post:
+      summary: Create a new comment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Comment'
+            examples:
+              newComment:
+                value:
+                  content: "This is my comment"
+                  post: "67119b1aeaf93d78b7d629c9"
+                  author: "6711902302d2006ebfa751c1"
+      responses:
+        '201':
+          description: Comment created successfully
+        '400':
+          description: Bad Request
+        '422':
+          description: Comment field cannot be empty
+        '404':
+          description: User not found / Post not found
+
+  /comments/{id}/:
+    get:
+      summary: Get a comment by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '201':
+          description: Comment found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+        '404':
+          description: Comment not found
+        '500':
+          description: Server error
+
+    put:
+      summary: Update a comment by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Comment'
+            examples:
+              updateComment:
+                value:
+                  content: "Updated comment content"
+      responses:
+        '422':
+          description: Content, post, and author are required for a full update
+        '404':
+          description: User not found
+        '400':
+          description: Bad Request
+        '200':
+          description: Comment updated successfully
+
+    delete:
+      summary: Delete a comment by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '404':
+          description: Comment not found
+        '204':
+          description: Comment deleted successfully
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        _id:
+          type: string
+        username:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        type:
+          type: string
+          enum: ['admin', 'mod', 'guest']
+
+    Tractor:
+      type: object
+      properties:
+        _id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        created_by:
+          type: string
+
+    Post:
+      type: object
+      properties:
+        _id:
+          type: string
+        title:
+          type: string
+        content:
+          type: string
+        author:
+          type: string
+        tractor:
+          type: string
+        upvotes:
+          type: integer
+        downvotes:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+
+    Comment:
+      type: object
+      properties:
+        _id:
+          type: string
+        content:
+          type: string
+        post:
+          type: string
+        author:
+          type: string
+        created_at:
+          type: string
+          format: date-time

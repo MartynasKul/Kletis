@@ -1,6 +1,6 @@
 /*
- * Kletis Forum API - Tractors
- * API for managing tractor categories (subreddit equivalent)
+ * Kletis Forum API
+ * Unified API for managing users, tractors, posts, and comments in the Tractor Forum
  *
  * The version of the OpenAPI document: 1.0.0
  * 

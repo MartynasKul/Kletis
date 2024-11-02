@@ -1,6 +1,6 @@
 /*
- * Kletis Forum API - Tractors
- * API for managing tractor categories (subreddit equivalent)
+ * Kletis Forum API
+ * Unified API for managing users, tractors, posts, and comments in the Tractor Forum
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -16,7 +16,7 @@ package org.openapitools.client;
 import java.util.Collection;
 import java.util.Iterator;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2024-10-24T23:57:32.491918400+03:00[Europe/Vilnius]", comments = "Generator version: 7.7.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2024-11-02T13:19:28.229978400+02:00[Europe/Vilnius]", comments = "Generator version: 7.7.0")
 public class StringUtil {
   /**
    * Check if the given array contains the given value (with case-insensitive comparison).

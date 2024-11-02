@@ -1,6 +1,6 @@
 /*
- * Kletis Forum API - Users
- * API for managing users in the Tractor Forum
+ * Kletis Forum API
+ * Unified API for managing users, tractors, posts, and comments in the Tractor Forum
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -50,7 +50,7 @@ import org.openapitools.client.JSON;
 /**
  * User
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2024-10-24T23:43:54.597279300+03:00[Europe/Vilnius]", comments = "Generator version: 7.7.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2024-11-02T13:19:28.229978400+02:00[Europe/Vilnius]", comments = "Generator version: 7.7.0")
 public class User {
   public static final String SERIALIZED_NAME_ID = "_id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -73,7 +73,7 @@ public class User {
   private OffsetDateTime createdAt;
 
   /**
-   * The type of user (admin, mod, guest)
+   * Gets or Sets type
    */
   @JsonAdapter(TypeEnum.Adapter.class)
   public enum TypeEnum {
@@ -139,7 +139,7 @@ public class User {
   }
 
   /**
-   * Unique identifier of the user
+   * Get id
    * @return id
    */
   @javax.annotation.Nullable
@@ -158,7 +158,7 @@ public class User {
   }
 
   /**
-   * The username of the user
+   * Get username
    * @return username
    */
   @javax.annotation.Nullable
@@ -177,7 +177,7 @@ public class User {
   }
 
   /**
-   * The email of the user
+   * Get email
    * @return email
    */
   @javax.annotation.Nullable
@@ -196,7 +196,7 @@ public class User {
   }
 
   /**
-   * The hashed password of the user
+   * Get password
    * @return password
    */
   @javax.annotation.Nullable
@@ -215,7 +215,7 @@ public class User {
   }
 
   /**
-   * Timestamp when the user was created
+   * Get createdAt
    * @return createdAt
    */
   @javax.annotation.Nullable
@@ -234,7 +234,7 @@ public class User {
   }
 
   /**
-   * The type of user (admin, mod, guest)
+   * Get type
    * @return type
    */
   @javax.annotation.Nullable

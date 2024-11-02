@@ -88,6 +88,14 @@ exports.getCommentsByUser = async (req, res) => {
         const { expand } = req.query;
         const userId = req.params.userId;
 
+        if(userId.length !== 24){
+            return res.status(400).json({error: 'Bad or non-existent user id'})
+        }
+        const userquery = User.findById(userId)
+
+        if(!userquery){
+            return res.status(404).json({error: 'User ID does not exist'})
+        }
 
         let commentsQuery = Comment.find({ author: userId });
 

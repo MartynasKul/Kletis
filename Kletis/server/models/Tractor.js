@@ -19,14 +19,12 @@ tractorSchema.pre('findOneAndDelete', async function (next) {
     try {
         const tractorId = this.getQuery()["_id"];
 
-        // Import Post model here to avoid circular dependency
         const Post = require('./Post');
         const Comment = require('./Comment');
 
         // Find all posts related to this tractor
         const posts = await Post.find({ tractor: tractorId });
 
-        // Log posts for debugging
         //console.log(`Posts found for tractor ${tractorId}:`, posts);
 
         // Delete all comments related to the posts
@@ -37,7 +35,7 @@ tractorSchema.pre('findOneAndDelete', async function (next) {
 
         // Delete all posts under this tractor category
         await Post.deleteMany({ tractor: tractorId });
-        //console.log(`Deleted all posts for tractor ${tractorId}`);
+
 
         next();
     } catch (error) {
