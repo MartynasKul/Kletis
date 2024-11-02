@@ -16,7 +16,7 @@ const path = require("node:path");
 const usersApiSpec = YAML.load(path.join(__dirname, './OpenAPI/usersOpenAPI.yml'))
 const tractorsApiSpec = YAML.load(path.join(__dirname, './OpenAPI/tractorsOpenAPI.yml'))
 const postsApiSpec = YAML.load(path.join(__dirname, './OpenAPI/postsOpenAPI.yml'))
-const commentsApiSpec = YAML.load(path.join(__dirname, './OpenAPI/commentsOpenAPI.yml'))
+const commentsApiSpec = YAML.load(path.join(__dirname, './OpenAPI/commentsOpenApi.yml'))
 const mergedApi = YAML.load(path.join(__dirname, './OpenAPI/mergedOpenApi.yml'))
 
 //Authorization
