@@ -1,5 +1,5 @@
 const User = require('../models/User');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 
@@ -24,7 +24,7 @@ exports.getAllUsers = async (req, res) => {
 exports.loginUser = async (req, res) => {
     const {email, password} = req.body;
     try{
-        const user = await user.findOne({email})
+        const user = await User.findOne({email})
         if(!user){
             return res.status(400).json({error: 'Invalid email'})
         }
