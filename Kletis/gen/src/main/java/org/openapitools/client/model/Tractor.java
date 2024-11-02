@@ -1,6 +1,6 @@
 /*
- * Kletis Forum API - Tractors
- * API for managing tractor categories (subreddit equivalent)
+ * Kletis Forum API
+ * Unified API for managing users, tractors, posts, and comments in the Tractor Forum
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -49,7 +49,7 @@ import org.openapitools.client.JSON;
 /**
  * Tractor
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2024-10-24T23:57:32.491918400+03:00[Europe/Vilnius]", comments = "Generator version: 7.7.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2024-11-02T13:19:28.229978400+02:00[Europe/Vilnius]", comments = "Generator version: 7.7.0")
 public class Tractor {
   public static final String SERIALIZED_NAME_ID = "_id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -76,7 +76,7 @@ public class Tractor {
   }
 
   /**
-   * Unique identifier of the tractor category
+   * Get id
    * @return id
    */
   @javax.annotation.Nullable
@@ -95,7 +95,7 @@ public class Tractor {
   }
 
   /**
-   * Name of the tractor category
+   * Get name
    * @return name
    */
   @javax.annotation.Nullable
@@ -114,7 +114,7 @@ public class Tractor {
   }
 
   /**
-   * Description of the tractor category
+   * Get description
    * @return description
    */
   @javax.annotation.Nullable
@@ -133,7 +133,7 @@ public class Tractor {
   }
 
   /**
-   * The ID of the user who created this tractor category
+   * Get createdBy
    * @return createdBy
    */
   @javax.annotation.Nullable

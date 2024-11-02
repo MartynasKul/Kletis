@@ -37,6 +37,8 @@ paths:
           description: Post created successfully
         '400':
           description: Validation error
+          '422':
+            description: Can't be empty fields
 
   /posts/{id}:
     get:
@@ -56,6 +58,44 @@ paths:
                 $ref: '#/components/schemas/Post'
         '404':
           description: Post not found
+  /tractor/{id}/posts:
+    get:
+      summary: Get posts by tractor
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Posts found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+        '404':
+          description: tractor not found
+
+  /user/{id}/posts:
+    get:
+      summary: Get posts by user
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Post found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+        '404':
+          description: User not found
+
 
     put:
       summary: Update a post by ID
@@ -76,8 +116,8 @@ paths:
           description: Post updated successfully
         '404':
           description: Post not found
-        '400':
-          description: Validation error
+        '422':
+          description: Can't be empty fields
 
     delete:
       summary: Delete a post by ID

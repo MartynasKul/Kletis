@@ -36,7 +36,7 @@ paths:
         '201':
           description: Tractor created successfully
         '422':
-          description: Validation error
+          description: can't empty field
 
   /tractors/{id}:
     get:
@@ -77,7 +77,7 @@ paths:
         '404':
           description: Tractor not found
         '422':
-          description: Validation error
+          description: can't be empty
 
     delete:
       summary: Delete a tractor by ID

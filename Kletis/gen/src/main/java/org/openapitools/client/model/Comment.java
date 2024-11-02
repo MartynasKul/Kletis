@@ -1,6 +1,6 @@
 /*
  * Kletis Forum API
- * API for the Tractor Forum (Reddit Clone)
+ * Unified API for managing users, tractors, posts, and comments in the Tractor Forum
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -50,7 +50,7 @@ import org.openapitools.client.JSON;
 /**
  * Comment
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2024-10-24T23:38:37.587713100+03:00[Europe/Vilnius]", comments = "Generator version: 7.7.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2024-11-02T13:19:28.229978400+02:00[Europe/Vilnius]", comments = "Generator version: 7.7.0")
 public class Comment {
   public static final String SERIALIZED_NAME_ID = "_id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -68,21 +68,9 @@ public class Comment {
   @SerializedName(SERIALIZED_NAME_AUTHOR)
   private String author;
 
-  public static final String SERIALIZED_NAME_UPVOTES = "upvotes";
-  @SerializedName(SERIALIZED_NAME_UPVOTES)
-  private Integer upvotes;
-
-  public static final String SERIALIZED_NAME_DOWNVOTES = "downvotes";
-  @SerializedName(SERIALIZED_NAME_DOWNVOTES)
-  private Integer downvotes;
-
   public static final String SERIALIZED_NAME_CREATED_AT = "created_at";
   @SerializedName(SERIALIZED_NAME_CREATED_AT)
   private OffsetDateTime createdAt;
-
-  public static final String SERIALIZED_NAME_UPDATED_AT = "updated_at";
-  @SerializedName(SERIALIZED_NAME_UPDATED_AT)
-  private OffsetDateTime updatedAt;
 
   public Comment() {
   }
@@ -93,7 +81,7 @@ public class Comment {
   }
 
   /**
-   * Unique identifier for the comment
+   * Get id
    * @return id
    */
   @javax.annotation.Nullable
@@ -112,7 +100,7 @@ public class Comment {
   }
 
   /**
-   * The content of the comment
+   * Get content
    * @return content
    */
   @javax.annotation.Nullable
@@ -131,7 +119,7 @@ public class Comment {
   }
 
   /**
-   * The ID of the post the comment belongs to
+   * Get post
    * @return post
    */
   @javax.annotation.Nullable
@@ -150,7 +138,7 @@ public class Comment {
   }
 
   /**
-   * The ID of the user who created the comment
+   * Get author
    * @return author
    */
   @javax.annotation.Nullable
@@ -163,51 +151,13 @@ public class Comment {
   }
 
 
-  public Comment upvotes(Integer upvotes) {
-    this.upvotes = upvotes;
-    return this;
-  }
-
-  /**
-   * Number of upvotes on the comment
-   * @return upvotes
-   */
-  @javax.annotation.Nullable
-  public Integer getUpvotes() {
-    return upvotes;
-  }
-
-  public void setUpvotes(Integer upvotes) {
-    this.upvotes = upvotes;
-  }
-
-
-  public Comment downvotes(Integer downvotes) {
-    this.downvotes = downvotes;
-    return this;
-  }
-
-  /**
-   * Number of downvotes on the comment
-   * @return downvotes
-   */
-  @javax.annotation.Nullable
-  public Integer getDownvotes() {
-    return downvotes;
-  }
-
-  public void setDownvotes(Integer downvotes) {
-    this.downvotes = downvotes;
-  }
-
-
   public Comment createdAt(OffsetDateTime createdAt) {
     this.createdAt = createdAt;
     return this;
   }
 
   /**
-   * The timestamp of when the comment was created
+   * Get createdAt
    * @return createdAt
    */
   @javax.annotation.Nullable
@@ -217,25 +167,6 @@ public class Comment {
 
   public void setCreatedAt(OffsetDateTime createdAt) {
     this.createdAt = createdAt;
-  }
-
-
-  public Comment updatedAt(OffsetDateTime updatedAt) {
-    this.updatedAt = updatedAt;
-    return this;
-  }
-
-  /**
-   * The timestamp of the last update to the comment
-   * @return updatedAt
-   */
-  @javax.annotation.Nullable
-  public OffsetDateTime getUpdatedAt() {
-    return updatedAt;
-  }
-
-  public void setUpdatedAt(OffsetDateTime updatedAt) {
-    this.updatedAt = updatedAt;
   }
 
 
@@ -253,15 +184,12 @@ public class Comment {
         Objects.equals(this.content, comment.content) &&
         Objects.equals(this.post, comment.post) &&
         Objects.equals(this.author, comment.author) &&
-        Objects.equals(this.upvotes, comment.upvotes) &&
-        Objects.equals(this.downvotes, comment.downvotes) &&
-        Objects.equals(this.createdAt, comment.createdAt) &&
-        Objects.equals(this.updatedAt, comment.updatedAt);
+        Objects.equals(this.createdAt, comment.createdAt);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, content, post, author, upvotes, downvotes, createdAt, updatedAt);
+    return Objects.hash(id, content, post, author, createdAt);
   }
 
   @Override
@@ -272,10 +200,7 @@ public class Comment {
     sb.append("    content: ").append(toIndentedString(content)).append("\n");
     sb.append("    post: ").append(toIndentedString(post)).append("\n");
     sb.append("    author: ").append(toIndentedString(author)).append("\n");
-    sb.append("    upvotes: ").append(toIndentedString(upvotes)).append("\n");
-    sb.append("    downvotes: ").append(toIndentedString(downvotes)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
-    sb.append("    updatedAt: ").append(toIndentedString(updatedAt)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -302,10 +227,7 @@ public class Comment {
     openapiFields.add("content");
     openapiFields.add("post");
     openapiFields.add("author");
-    openapiFields.add("upvotes");
-    openapiFields.add("downvotes");
     openapiFields.add("created_at");
-    openapiFields.add("updated_at");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

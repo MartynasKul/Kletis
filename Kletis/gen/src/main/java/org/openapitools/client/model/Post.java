@@ -1,6 +1,6 @@
 /*
- * Kletis Forum API - Posts
- * API for managing forum posts in tractor categories (subreddit equivalent)
+ * Kletis Forum API
+ * Unified API for managing users, tractors, posts, and comments in the Tractor Forum
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -50,7 +50,7 @@ import org.openapitools.client.JSON;
 /**
  * Post
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2024-10-24T23:39:12.363182100+03:00[Europe/Vilnius]", comments = "Generator version: 7.7.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2024-11-02T13:19:28.229978400+02:00[Europe/Vilnius]", comments = "Generator version: 7.7.0")
 public class Post {
   public static final String SERIALIZED_NAME_ID = "_id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -84,10 +84,6 @@ public class Post {
   @SerializedName(SERIALIZED_NAME_CREATED_AT)
   private OffsetDateTime createdAt;
 
-  public static final String SERIALIZED_NAME_UPDATED_AT = "updated_at";
-  @SerializedName(SERIALIZED_NAME_UPDATED_AT)
-  private OffsetDateTime updatedAt;
-
   public Post() {
   }
 
@@ -97,7 +93,7 @@ public class Post {
   }
 
   /**
-   * Unique identifier of the post
+   * Get id
    * @return id
    */
   @javax.annotation.Nullable
@@ -116,7 +112,7 @@ public class Post {
   }
 
   /**
-   * The title of the post
+   * Get title
    * @return title
    */
   @javax.annotation.Nullable
@@ -135,7 +131,7 @@ public class Post {
   }
 
   /**
-   * The content of the post
+   * Get content
    * @return content
    */
   @javax.annotation.Nullable
@@ -154,7 +150,7 @@ public class Post {
   }
 
   /**
-   * The ID of the user who created the post
+   * Get author
    * @return author
    */
   @javax.annotation.Nullable
@@ -173,7 +169,7 @@ public class Post {
   }
 
   /**
-   * The ID of the tractor (subreddit) this post belongs to
+   * Get tractor
    * @return tractor
    */
   @javax.annotation.Nullable
@@ -192,7 +188,7 @@ public class Post {
   }
 
   /**
-   * Number of upvotes on the post
+   * Get upvotes
    * @return upvotes
    */
   @javax.annotation.Nullable
@@ -211,7 +207,7 @@ public class Post {
   }
 
   /**
-   * Number of downvotes on the post
+   * Get downvotes
    * @return downvotes
    */
   @javax.annotation.Nullable
@@ -230,7 +226,7 @@ public class Post {
   }
 
   /**
-   * Timestamp when the post was created
+   * Get createdAt
    * @return createdAt
    */
   @javax.annotation.Nullable
@@ -240,25 +236,6 @@ public class Post {
 
   public void setCreatedAt(OffsetDateTime createdAt) {
     this.createdAt = createdAt;
-  }
-
-
-  public Post updatedAt(OffsetDateTime updatedAt) {
-    this.updatedAt = updatedAt;
-    return this;
-  }
-
-  /**
-   * Timestamp of the last update
-   * @return updatedAt
-   */
-  @javax.annotation.Nullable
-  public OffsetDateTime getUpdatedAt() {
-    return updatedAt;
-  }
-
-  public void setUpdatedAt(OffsetDateTime updatedAt) {
-    this.updatedAt = updatedAt;
   }
 
 
@@ -279,13 +256,12 @@ public class Post {
         Objects.equals(this.tractor, post.tractor) &&
         Objects.equals(this.upvotes, post.upvotes) &&
         Objects.equals(this.downvotes, post.downvotes) &&
-        Objects.equals(this.createdAt, post.createdAt) &&
-        Objects.equals(this.updatedAt, post.updatedAt);
+        Objects.equals(this.createdAt, post.createdAt);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, title, content, author, tractor, upvotes, downvotes, createdAt, updatedAt);
+    return Objects.hash(id, title, content, author, tractor, upvotes, downvotes, createdAt);
   }
 
   @Override
@@ -300,7 +276,6 @@ public class Post {
     sb.append("    upvotes: ").append(toIndentedString(upvotes)).append("\n");
     sb.append("    downvotes: ").append(toIndentedString(downvotes)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
-    sb.append("    updatedAt: ").append(toIndentedString(updatedAt)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -331,7 +306,6 @@ public class Post {
     openapiFields.add("upvotes");
     openapiFields.add("downvotes");
     openapiFields.add("created_at");
-    openapiFields.add("updated_at");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

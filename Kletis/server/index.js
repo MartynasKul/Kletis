@@ -5,17 +5,23 @@ const swaggerUI = require('swagger-ui-express');
 const YAML = require('yamljs');
 //const path = require('path');
 
+//Controllers
 const usersController = require('./controllers/usersController');
 const postsController = require('./controllers/postsController');
 const tractorsController = require('./controllers/tractorsController');
 const commentsController = require('./controllers/commentsController');
 const path = require("node:path");
 
+//Api Specs
 const usersApiSpec = YAML.load(path.join(__dirname, './OpenAPI/usersOpenAPI.yml'))
 const tractorsApiSpec = YAML.load(path.join(__dirname, './OpenAPI/tractorsOpenAPI.yml'))
 const postsApiSpec = YAML.load(path.join(__dirname, './OpenAPI/postsOpenAPI.yml'))
 const commentsApiSpec = YAML.load(path.join(__dirname, './OpenAPI/commentsOpenAPI.yml'))
+const mergedApi = YAML.load(path.join(__dirname, './OpenAPI/mergedOpenApi.yml'))
 
+//Authorization
+const auth = require('./services/auth');
+const authorize = require('./services/authorize');
 //routes
 //const postRoutes = require('./routes/postRoutes');
 //const commentRoutes = require('./routes/commentRoutes');
@@ -39,6 +45,8 @@ app.use(express.json());
 //app.use('/users', userRoutes);
 //app.use('/comments', commentRoutes);
 
+//Authorization routes
+app.get('/login', usersController.loginUser)
 
 //Swagger
 
@@ -46,30 +54,32 @@ app.use('/api-docs/users', swaggerUI.serveFiles(usersApiSpec), swaggerUI.setup(u
 app.use('/api-docs/tractors', swaggerUI.serveFiles(tractorsApiSpec), swaggerUI.setup(tractorsApiSpec));
 app.use('/api-docs/posts', swaggerUI.serveFiles(postsApiSpec), swaggerUI.setup(postsApiSpec));
 app.use('/api-docs/comments', swaggerUI.serveFiles(commentsApiSpec), swaggerUI.setup(commentsApiSpec));
+app.use('/api-docs/all', swaggerUI.serveFiles(mergedApi), swaggerUI.setup(mergedApi));
 
 // Comment routes
 app.get('/comments/', commentsController.getComments)
 app.get('/post/:postID/comments/', commentsController.getCommentsByPost)
 app.get('/comments/:id/', commentsController.getCommentById)
 app.get('/user/:userId/comments/', commentsController.getCommentsByUser)
-app.post('/comments/', commentsController.createComment)
-app.put('/comments/:id/', commentsController.updateComment)
-app.delete('/comments/:id/', commentsController.deleteComment)
+app.post('/comments/',  auth, authorize(['admin', 'dev', 'guest']),commentsController.createComment)
+app.put('/comments/:id/',  auth, authorize(['admin', 'dev', 'guest']),commentsController.updateComment)
+app.delete('/comments/:id/',  auth, authorize(['admin', 'dev', 'guest']),commentsController.deleteComment)
 
 // Post routes
 app.get('/posts/', postsController.getAllPosts);
 app.get('/tractor/:tractorId/posts/', postsController.getPostsByTractor) // '/posts/tractor/:tractorId  -> /tractors/:tractorId/post THIS GOES TO TRACTOR ROUTE
+app.get('/user/:userId/posts/', postsController.getPostsByUser)
 app.get('/posts/:id/', postsController.getPostById);
-app.post('/posts/', postsController.createPost);
-app.put('/posts/:id/', postsController.updatePost);
-app.delete('/posts/:id', postsController.deletePost);
+app.post('/posts/', auth, authorize(['admin', 'mod', 'guest']), postsController.createPost);
+app.put('/posts/:id/', auth, authorize(['admin', 'dev', 'guest']), postsController.updatePost);
+app.delete('/posts/:id', auth, authorize(['admin', 'dev', 'guest']), postsController.deletePost);
 
 // Tractor routes
 app.get('/tractors/', tractorsController.getAllTractors);
 app.get('/tractors/:id/', tractorsController.getTractorById);
-app.post('/tractors/', tractorsController.createTractor);
-app.put('/tractors/:id/', tractorsController.updateTractor);
-app.delete('/tractors/:id/', tractorsController.deleteTractor);
+app.post('/tractors/', auth, authorize(['admin', 'mod']), tractorsController.createTractor);
+app.put('/tractors/:id/', auth, authorize(['admin', 'dev', 'guest']), tractorsController.updateTractor);
+app.delete('/tractors/:id/', auth, authorize(['admin', 'dev', 'guest']), tractorsController.deleteTractor);
 
 
 // User routes
@@ -80,15 +90,18 @@ app.put('/users/:id/', usersController.updateUser);
 app.delete('/users/:id/', usersController.deleteUser);
 /*
 * tractors/{tId}/posts/{pid}/comments/{cid}  | TARKIM DONE
-no 500 responses                             | fixed
-422 when invalid fields                      | fixde
-no html on error (bad json)                  | i think fixed
-cascade delete                               | FIXED
-soft delete, IsRemoved=true/false            | not needed
-openapi spec                                 | done
-* */
 
+/*
+* sujungti openapi specs
+* praplesti openapi specs
+* hierarchiniai linkai
+* */
 // Start the server
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`)
 })
+
+app.use((error, req, res, next) => {
+    console.error(error.stack);
+    res.status(500).send('Something broke!');
+});

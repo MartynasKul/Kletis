@@ -37,6 +37,8 @@ paths:
           description: Comment created successfully
         '400':
           description: Bad Request
+          '422':
+            description: can't be empty
 
   /comments/{id}:
     get:
@@ -57,6 +59,50 @@ paths:
                 $ref: '#/components/schemas/Comment'
         '404':
           description: Comment not found
+  /post/{postid}/comments/:
+    get:
+      summary: Get all comments under post of such ID
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID of the post
+      responses:
+        '200':
+          description: Comment found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+        '404':
+          description: post not found
+        '400':
+          description: Post id is required
+  /user/{userId}/comments/:
+    get:
+      summary: Get all comments under a user of such ID
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID of the user
+      responses:
+        '200':
+          description: Comment found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+        '404':
+          description: No comments found for this user
+        '400':
+          description: Bad or non-existant user id
+        '403':
+          description: User ID (userId) is required
 
     put:
       summary: Update a comment by ID
@@ -78,6 +124,8 @@ paths:
           description: Comment updated successfully
         '404':
           description: Comment not found
+        '422':
+            description: can't empty field
 
     delete:
       summary: Delete a comment by ID

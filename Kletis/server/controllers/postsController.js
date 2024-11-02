@@ -40,6 +40,44 @@ exports.getPostsByTractor = async (req, res) => {
     }
 }
 
+// GET posts for tractor
+exports.getPostsByUser = async (req, res) => {
+    try {
+        const { expand } = req.query;
+
+
+        //console.log('Request parameters:', req.params);
+
+
+        const userId = req.params.userId;
+        //console.log('Tractor ID:', tractorId);
+
+
+        const userCheck = await User.findById(userId); // Await the query
+        //console.log('Tractor Check:', tractorCheck);
+
+        if (!userCheck) {
+            return res.status(404).send({ error: 'User Not Found' });
+        }
+
+        // Query posts using the tractorId
+        let postQuery = Post.find({ author: userId });
+
+        if (expand && expand.includes('tractor')) {
+            postQuery = postQuery.populate('tractor');
+        }
+        if (expand && expand.includes('author')) {
+            postQuery = postQuery.populate('author');
+        }
+
+        const posts = await postQuery; // Await the result of the query
+        res.json(posts); // Send back the posts
+    } catch (error) {
+        console.error('Error fetching posts by user:', error);
+        res.status(500).json({ error: 'Server error' });
+    }
+}
+
 // GET all posts with tractor info
 exports.getAllPosts = async (req, res) => {
     try {
@@ -121,7 +159,7 @@ exports.createPost = async (req, res) => {
     }
     catch(error){
         console.error('Error creating post:', error.message); // Log the specific error message
-        res.status(400).json({error: 'Bad Request Unga'})
+        res.status(400).json({error: 'Bad Request'})
     }
 }
 

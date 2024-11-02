@@ -7,12 +7,12 @@
 
 | Name | Type | Description | Notes |
 |------------ | ------------- | ------------- | -------------|
-|**id** | **String** | Unique identifier of the user |  [optional] |
-|**username** | **String** | The username of the user |  [optional] |
-|**email** | **String** | The email of the user |  [optional] |
-|**password** | **String** | The hashed password of the user |  [optional] |
-|**createdAt** | **OffsetDateTime** | Timestamp when the user was created |  [optional] |
-|**type** | [**TypeEnum**](#TypeEnum) | The type of user (admin, mod, guest) |  [optional] |
+|**id** | **String** |  |  [optional] |
+|**username** | **String** |  |  [optional] |
+|**email** | **String** |  |  [optional] |
+|**password** | **String** |  |  [optional] |
+|**createdAt** | **OffsetDateTime** |  |  [optional] |
+|**type** | [**TypeEnum**](#TypeEnum) |  |  [optional] |
 
 
 

@@ -1,0 +1,3928 @@
+{
+	"info": {
+		"_postman_id": "b11e2614-e2c0-471c-8da3-4a157509ebb7",
+		"name": "Kletis",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38639663"
+	},
+	"item": [
+		{
+			"name": "Comments",
+			"item": [
+				{
+					"name": "Get comments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/comments/",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"comments",
+								""
+							]
+						},
+						"description": "### Get Comments\n\nThis endpoint makes an HTTP GET request to retrieve a list of comments.\n\n#### Request Body\n\nThis request does not require a request body.\n\n#### Response\n\nThe response will include an array of comment objects, each containing information about a specific comment."
+					},
+					"response": [
+						{
+							"name": "Get comments | good",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/comments/",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"comments",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "483"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1e3-PJCaeqW+v/Uyjz+LkWb+7JZvJ2o\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Oct 2024 23:35:48 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"_id\": \"67119ed8497cbaa3439c4443\",\n        \"content\": \"Sukti rakteli\",\n        \"created_at\": \"2024-10-17T23:33:44.025Z\",\n        \"post\": \"67119b1aeaf93d78b7d629c9\",\n        \"author\": \"67101f6c63c35321098a2849\",\n        \"upvotes\": 0,\n        \"downvotes\": 0,\n        \"updated_at\": \"2024-10-17T23:33:44.026Z\"\n    },\n    {\n        \"_id\": \"67119f08497cbaa3439c4448\",\n        \"content\": \"Sukti rakteli spynoje\",\n        \"created_at\": \"2024-10-17T23:34:32.963Z\",\n        \"post\": \"67119b1aeaf93d78b7d629c9\",\n        \"author\": \"67101f6c63c35321098a2849\",\n        \"upvotes\": 0,\n        \"downvotes\": 0,\n        \"updated_at\": \"2024-10-17T23:35:11.954Z\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "get comments by post",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/post/67119b1aeaf93d78b7d629c9/comments/",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"post",
+								"67119b1aeaf93d78b7d629c9",
+								"comments",
+								""
+							]
+						},
+						"description": "# Get Post Comments\n\nThis endpoint retrieves comments for a specific post identified by the post ID.\n\n## Request\n\n### Request URL\n\n- Method: GET\n    \n- URL: {{URL}}/comments/id/post\n    \n\n## Response\n\nThe response for this request is a JSON object with the following schema:\n\n``` json\n{\n  \"type\": \"object\",\n  \"properties\": {\n    \"postId\": {\n      \"type\": \"number\"\n    },\n    \"id\": {\n      \"type\": \"number\"\n    },\n    \"name\": {\n      \"type\": \"string\"\n    },\n    \"email\": {\n      \"type\": \"string\"\n    },\n    \"body\": {\n      \"type\": \"string\"\n    }\n  }\n}\n\n ```\n\nThe response body includes the following fields:\n\n- `postId`: The ID of the post the comment belongs to.\n    \n- `id`: The ID of the comment.\n    \n- `name`: The name of the commenter.\n    \n- `email`: The email of the commenter.\n    \n- `body`: The content of the comment."
+					},
+					"response": [
+						{
+							"name": "get comments by post | no post id",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/comments/67119b1aeaf93d78b7d629c9/post/",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"comments",
+										"67119b1aeaf93d78b7d629c9",
+										"post",
+										""
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "31"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1f-k4NjRkD9ISUlxPi8ToYhtqS3EtI\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Oct 2024 23:45:32 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"Post ID is required\"\n}"
+						},
+						{
+							"name": "get comments by post | good",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/comments/67119b1aeaf93d78b7d629c9/post/",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"comments",
+										"67119b1aeaf93d78b7d629c9",
+										"post",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "483"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1e3-PJCaeqW+v/Uyjz+LkWb+7JZvJ2o\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Oct 2024 23:46:51 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"_id\": \"67119ed8497cbaa3439c4443\",\n        \"content\": \"Sukti rakteli\",\n        \"created_at\": \"2024-10-17T23:33:44.025Z\",\n        \"post\": \"67119b1aeaf93d78b7d629c9\",\n        \"author\": \"67101f6c63c35321098a2849\",\n        \"upvotes\": 0,\n        \"downvotes\": 0,\n        \"updated_at\": \"2024-10-17T23:33:44.026Z\"\n    },\n    {\n        \"_id\": \"67119f08497cbaa3439c4448\",\n        \"content\": \"Sukti rakteli spynoje\",\n        \"created_at\": \"2024-10-17T23:34:32.963Z\",\n        \"post\": \"67119b1aeaf93d78b7d629c9\",\n        \"author\": \"67101f6c63c35321098a2849\",\n        \"upvotes\": 0,\n        \"downvotes\": 0,\n        \"updated_at\": \"2024-10-17T23:35:11.954Z\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "get comment by id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/comments/67119ed8497cbaa3439c4443/",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"comments",
+								"67119ed8497cbaa3439c4443",
+								""
+							]
+						},
+						"description": "### Get Comment by ID\n\nThis endpoint retrieves a specific comment by its ID.\n\n#### Request\n\n- Method: GET\n    \n- URL: `{{URL}}/comments/id`\n    \n\n#### Response\n\nThe response for this request follows the JSON schema below:\n\n``` json\n{\n  \"type\": \"object\",\n  \"properties\": {\n    \"id\": {\n      \"type\": \"integer\"\n    },\n    \"text\": {\n      \"type\": \"string\"\n    },\n    \"author\": {\n      \"type\": \"string\"\n    },\n    \"timestamp\": {\n      \"type\": \"string\",\n      \"format\": \"date-time\"\n    }\n  }\n}\n\n ```"
+					},
+					"response": [
+						{
+							"name": "get comment by id | good",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/comments/67119ed8497cbaa3439c4443",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"comments",
+										"67119ed8497cbaa3439c4443"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "236"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"ec-4zJ5pva0MBnjYxaG9yGDejQTulg\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Oct 2024 23:47:09 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"_id\": \"67119ed8497cbaa3439c4443\",\n    \"content\": \"Sukti rakteli\",\n    \"created_at\": \"2024-10-17T23:33:44.025Z\",\n    \"post\": \"67119b1aeaf93d78b7d629c9\",\n    \"author\": \"67101f6c63c35321098a2849\",\n    \"upvotes\": 0,\n    \"downvotes\": 0,\n    \"updated_at\": \"2024-10-17T23:33:44.026Z\"\n}"
+						},
+						{
+							"name": "get comment by id | not found",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/comments/67119ed8497cbaa3439c4488",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"comments",
+										"67119ed8497cbaa3439c4488"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "29"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1d-uVRhO9uu3n7cQ3uMMDQ/FogOuAw\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Oct 2024 23:47:23 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"Comment not found\"\n}"
+						},
+						{
+							"name": "get comment by id | bad id",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/comments/67119ed8497cbaa3439c444",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"comments",
+										"67119ed8497cbaa3439c444"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "24"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"18-Me+6Nc43K2GSVMAitYeZdImW27Q\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Oct 2024 23:47:41 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"Server error\"\n}"
+						}
+					]
+				},
+				{
+					"name": "get comments by user",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/user/67121d7bc5740defc6fbc284/comments/",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"user",
+								"67121d7bc5740defc6fbc284",
+								"comments",
+								""
+							]
+						},
+						"description": "This endpoint retrieves the user's comments by their ID. The response of this request is a JSON schema representing the structure of the data returned."
+					},
+					"response": [
+						{
+							"name": "get comments by user | good",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/comments/67101f6c63c35321098a2849/user",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"comments",
+										"67101f6c63c35321098a2849",
+										"user"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "483"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1e3-PJCaeqW+v/Uyjz+LkWb+7JZvJ2o\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Oct 2024 23:48:27 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"_id\": \"67119ed8497cbaa3439c4443\",\n        \"content\": \"Sukti rakteli\",\n        \"created_at\": \"2024-10-17T23:33:44.025Z\",\n        \"post\": \"67119b1aeaf93d78b7d629c9\",\n        \"author\": \"67101f6c63c35321098a2849\",\n        \"upvotes\": 0,\n        \"downvotes\": 0,\n        \"updated_at\": \"2024-10-17T23:33:44.026Z\"\n    },\n    {\n        \"_id\": \"67119f08497cbaa3439c4448\",\n        \"content\": \"Sukti rakteli spynoje\",\n        \"created_at\": \"2024-10-17T23:34:32.963Z\",\n        \"post\": \"67119b1aeaf93d78b7d629c9\",\n        \"author\": \"67101f6c63c35321098a2849\",\n        \"upvotes\": 0,\n        \"downvotes\": 0,\n        \"updated_at\": \"2024-10-17T23:35:11.954Z\"\n    }\n]"
+						},
+						{
+							"name": "get comments by user | no comments",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/comments/67101f6c63c35321098a2842/user",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"comments",
+										"67101f6c63c35321098a2842",
+										"user"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "43"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2b-aBja0HDHG3qVE+4uTwFceX/+beI\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Oct 2024 23:48:38 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"No comments found for this user\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Create comment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\": \"Unga Bunga trinti cascade\",\r\n    \"post\": \"67119b1aeaf93d78b7d629c9\",\r\n    \"author\": \"67121d7bc5740defc6fbc284\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/comments/",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"comments",
+								""
+							]
+						},
+						"description": "The endpoint allows the user to create a new comment by sending an HTTP POST request to the specified URL. Upon successful execution, the response will be in the form of a JSON schema, detailing the structure of the response data."
+					},
+					"response": [
+						{
+							"name": "Create comment | good",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"content\": \"Sukti rakteli\",\r\n    \"post\": \"67119b1aeaf93d78b7d629c9\",\r\n    \"author\": \"67101f6c63c35321098a2849\"\r\n\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/comments/",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"comments",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "236"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"ec-qCshrRTsscaEofEh58G5iizjhY8\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Oct 2024 23:33:44 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"content\": \"Sukti rakteli\",\n    \"created_at\": \"2024-10-17T23:33:44.025Z\",\n    \"post\": \"67119b1aeaf93d78b7d629c9\",\n    \"author\": \"67101f6c63c35321098a2849\",\n    \"upvotes\": 0,\n    \"downvotes\": 0,\n    \"_id\": \"67119ed8497cbaa3439c4443\",\n    \"updated_at\": \"2024-10-17T23:33:44.026Z\"\n}"
+						},
+						{
+							"name": "Create comment | empty field",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"content\": \"\",\r\n    \"post\": \"67119b1aeaf93d78b7d629c9\",\r\n    \"author\": \"67101f6c63c35321098a2849\"\r\n\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/comments/",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"comments",
+										""
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "23"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"17-i22p4FL6eG9sZYzIFCm/xvy/pHM\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Oct 2024 23:33:56 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"Bad Request\"\n}"
+						},
+						{
+							"name": "Create comment | User not found",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"content\": \"turetu issitrinti\",\r\n    \"post\": \"67119b1aeaf93d78b7d629c9\",\r\n    \"author\": \"671216fc04b5d44916cd8b9f\"\r\n\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/comments/",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"comments",
+										""
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "26"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1a-hq/hT0ORGTkTfyRpVCZ/JB/r8Eg\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 18 Oct 2024 08:10:12 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"User not found\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Update comment",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\": \"Sukti rakteli spynoje\",\r\n\r\n    \"post\": \"67119b1aeaf93d78b7d629c9\",\r\n    \"author\": \"67101f6c63c35321098a2849\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/comments/67119f08497cbaa3439c4449",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"comments",
+								"67119f08497cbaa3439c4449"
+							]
+						},
+						"description": "### Update Comment\n\nThis endpoint is used to update a specific comment by its ID.\n\n#### Request\n\n- Method: PUT\n    \n- URL: {{URL}}/comments/id\n    \n- Body:\n    \n    - `comment`: (text) The updated content of the comment.\n        \n\n#### Response\n\nThe response of this request is a JSON object conforming to the following schema:\n\n``` json\n{\n  \"type\": \"object\",\n  \"properties\": {\n    \"id\": {\n      \"type\": \"string\"\n    },\n    \"content\": {\n      \"type\": \"string\"\n    },\n    \"author\": {\n      \"type\": \"string\"\n    },\n    \"updatedAt\": {\n      \"type\": \"string\",\n      \"format\": \"date-time\"\n    }\n  }\n}\n\n ```"
+					},
+					"response": [
+						{
+							"name": "Update comment | good",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"content\": \"Sukti rakteli spynoje\",\r\n\r\n    \"post\": \"67119b1aeaf93d78b7d629c9\",\r\n    \"author\": \"67101f6c63c35321098a2849\"\r\n\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/comments/67119f08497cbaa3439c4448",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"comments",
+										"67119f08497cbaa3439c4448"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "244"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"f4-NhSmH6N955sqptGAupY3pJwTaNY\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Oct 2024 23:35:12 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"_id\": \"67119f08497cbaa3439c4448\",\n    \"content\": \"Sukti rakteli spynoje\",\n    \"created_at\": \"2024-10-17T23:34:32.963Z\",\n    \"post\": \"67119b1aeaf93d78b7d629c9\",\n    \"author\": \"67101f6c63c35321098a2849\",\n    \"upvotes\": 0,\n    \"downvotes\": 0,\n    \"updated_at\": \"2024-10-17T23:35:11.954Z\"\n}"
+						},
+						{
+							"name": "Update comment | empty field",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"content\": \"\",\r\n\r\n    \"post\": \"67119b1aeaf93d78b7d629c9\",\r\n    \"author\": \"67101f6c63c35321098a2849\"\r\n\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/comments/67119f08497cbaa3439c4448",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"comments",
+										"67119f08497cbaa3439c4448"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "68"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"44-spEkQtjmJWLSZtwaKqW1v33siW8\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Oct 2024 23:35:23 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"Content, post, and author are required for a full update\"\n}"
+						},
+						{
+							"name": "Update comment | comment not found",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"content\": \"Sukti rakteli spynoje\",\r\n\r\n    \"post\": \"67119b1aeaf93d78b7d629c9\",\r\n    \"author\": \"67101f6c63c35321098a2849\"\r\n\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/comments/67119f08497cbaa3439c4449",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"comments",
+										"67119f08497cbaa3439c4449"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "29"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1d-uVRhO9uu3n7cQ3uMMDQ/FogOuAw\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 18 Oct 2024 08:10:38 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"Comment not found\"\n}"
+						}
+					]
+				},
+				{
+					"name": "delete comment",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/comments/6711a276286a28ba417d468e",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"comments",
+								"6711a276286a28ba417d468e"
+							]
+						},
+						"description": "### Delete Comment\n\nThis endpoint is used to delete a specific comment by its ID.\n\n#### Request\n\n- Method: DELETE\n    \n- URL: `{{URL}}/comments/id`\n    \n- Path Parameters:\n    \n    - `id`: The unique identifier of the comment to be deleted.\n        \n\n#### Response\n\nThe response for this request is a JSON object conforming to the following schema:\n\n``` json\n{\n  \"type\": \"object\",\n  \"properties\": {\n    \"message\": {\n      \"type\": \"string\"\n    }\n  }\n}\n\n ```\n\nThe response body contains a `message` property indicating the result of the deletion operation."
+					},
+					"response": [
+						{
+							"name": "delete comment | ok",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/comments/6711a276286a28ba417d468e",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"comments",
+										"6711a276286a28ba417d468e"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "229"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"e5-oxM2xuVZdPdyoO+638VtR5Ow2DA\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Oct 2024 23:49:18 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"_id\": \"6711a276286a28ba417d468e\",\n    \"content\": \"Trinti\",\n    \"created_at\": \"2024-10-17T23:49:10.084Z\",\n    \"post\": \"67119b1aeaf93d78b7d629c9\",\n    \"author\": \"67101f6c63c35321098a2849\",\n    \"upvotes\": 0,\n    \"downvotes\": 0,\n    \"updated_at\": \"2024-10-17T23:49:10.086Z\"\n}"
+						},
+						{
+							"name": "delete comment | no comment",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/comments/6711a276286a28ba417d468e",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"comments",
+										"6711a276286a28ba417d468e"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "29"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1d-uVRhO9uu3n7cQ3uMMDQ/FogOuAw\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Oct 2024 23:49:25 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"Comment not found\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"trinamas\",\r\n    \"email\": \"trinamas@gmail.com\",\r\n    \"password\": \"BALLS\",\r\n    \"type\": \"guest\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/users",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"users"
+							]
+						},
+						"description": "This endpoint allows you to create a new user by sending a POST request to the specified URL. The request should include the following parameters in the raw request body:\n\n- `username` (string): The username of the new user.\n    \n- `email` (string): The email address of the new user.\n    \n- `password` (string): The password for the new user.\n    \n- `type` (string): The type of user, e.g., admin, regular, etc.\n    \n\nThe response will include the details of the newly created user, such as user ID, username, email, and type."
+					},
+					"response": [
+						{
+							"name": "Create User antanas",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"Antanas\",\r\n    \"email\": \"Antanas@gmail.com\",\r\n    \"password\": \"BALLS\",\r\n    \"type\": \"mod\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/users",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "210"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"d2-eQD54mW+tCx6zxGfnnvj6M6dN9Q\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Oct 2024 22:30:59 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"username\": \"Antanas\",\n    \"email\": \"Antanas@gmail.com\",\n    \"password\": \"$2b$10$T7yNNIVHtGwtBi377IW3N.PJ7qMU/GNqNDEJ/SOAYA8yWfGu0eNLW\",\n    \"created_at\": \"2024-10-17T22:30:59.295Z\",\n    \"type\": \"mod\",\n    \"_id\": \"6711902302d2006ebfa751c1\"\n}"
+						},
+						{
+							"name": "Create User petras",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"Petras\",\r\n    \"email\": \"Petras@gmail.com\",\r\n    \"password\": \"BALLS\",\r\n    \"type\": \"guest\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/users",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "210"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"d2-PQMTeH2BEJWZptCVPho3K1JQ1xI\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Oct 2024 22:31:55 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"username\": \"Petras\",\n    \"email\": \"Petras@gmail.com\",\n    \"password\": \"$2b$10$7RByyC3KJvIxGSUoaStm7O16YMukYP6Np04jjkLKbC1bBvuGFvv2O\",\n    \"created_at\": \"2024-10-17T22:31:55.167Z\",\n    \"type\": \"guest\",\n    \"_id\": \"6711905b02d2006ebfa751c3\"\n}"
+						},
+						{
+							"name": "Create User netinkamas user tipas",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"netinkamas\",\r\n    \"email\": \"Petras@gmail.com\",\r\n    \"password\": \"BALLS\",\r\n    \"type\": \"asd\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/users",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "65"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"41-3PewkZV8egqpwBv050nEe2+Z1a4\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Oct 2024 22:32:22 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"Invalid user type. Valid types are: admin, mod, guest\"\n}"
+						},
+						{
+							"name": "Create User netinkamas email",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"netinkamas\",\r\n    \"email\": \"asd\",\r\n    \"password\": \"BALLS\",\r\n    \"type\": \"guest\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/users",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "33"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"21-Z5hvP/q4qTpHaFd/I0vz4mBBaho\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Oct 2024 22:32:53 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"Invalid email format.\"\n}"
+						},
+						{
+							"name": "Create User empty field",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"\",\r\n    \"email\": \"Netinkamas@gmail.com\",\r\n    \"password\": \"BALLS\",\r\n    \"type\": \"guest\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/users",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "71"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"47-oPsI8hhBi0uf3eFUlh73uWEB5jM\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Oct 2024 22:35:26 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"Cannot be empty fields in username, email, password or type\"\n}"
+						},
+						{
+							"name": "Create User| email exist",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"busIstrintas\",\r\n    \"email\": \"trinamas@gmail.com\",\r\n    \"password\": \"BALLS\",\r\n    \"type\": \"guest\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/users",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "32"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"20-N0CbDIzmlWyrjCtE3NXOzGCeBnY\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 18 Oct 2024 08:05:58 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"Email already exists\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"Martonas\",\r\n    \"email\": \"martiss300@gmail.com\",\r\n    \"password\": \"BALLS\",\r\n    \"type\": \"admin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/users/67101f6c63c35321098a2849",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"users",
+								"67101f6c63c35321098a2849"
+							]
+						},
+						"description": "This endpoint allows updating user information by making an HTTP PUT request to the specified URL with the user ID in the path parameter. The request should include a JSON payload in the raw request body, containing the updated user details such as username, email, password, and type.\n\n### Request Body\n\n- `username` (string): The updated username for the user.\n    \n- `email` (string): The updated email address for the user.\n    \n- `password` (string): The updated password for the user.\n    \n- `type` (string): The updated user type, e.g., admin, regular, etc.\n    \n\n### Response\n\nThe response of this request is a JSON schema representing the updated user information. The schema will include the properties for the user's details, such as username, email, and type, along with any additional information specific to the API implementation.\n\nExample JSON schema:\n\n``` json\n{\n  \"type\": \"object\",\n  \"properties\": {\n    \"username\": { \"type\": \"string\" },\n    \"email\": { \"type\": \"string\", \"format\": \"email\" },\n    \"password\": { \"type\": \"string\" },\n    \"type\": { \"type\": \"string\" }\n    // Additional properties specific to the API implementation\n  }\n}\n\n ```"
+					},
+					"response": [
+						{
+							"name": "Update User netinkamas id",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"Martonas\",\r\n    \"email\": \"martiss300@gmail.com\",\r\n    \"password\": \"BALLS\",\r\n    \"type\": \"admin\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/users/67101717abfc33ded48ea00d",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"users",
+										"67101717abfc33ded48ea00d"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "26"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1a-hq/hT0ORGTkTfyRpVCZ/JB/r8Eg\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Oct 2024 22:36:31 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"User not found\"\n}"
+						},
+						{
+							"name": "Update User Martonas",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"Martonas\",\r\n    \"email\": \"martiss300@gmail.com\",\r\n    \"password\": \"BALLS\",\r\n    \"type\": \"admin\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/users/67101f6c63c35321098a2849",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"users",
+										"67101f6c63c35321098a2849"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "216"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"d8-dYYxHoOzCgFUkvQ3/WBWB6X1nx4\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Oct 2024 22:37:23 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"_id\": \"67101f6c63c35321098a2849\",\n    \"username\": \"Martonas\",\n    \"email\": \"martiss300@gmail.com\",\n    \"password\": \"$2b$10$fWapQcyzwDTgOVV5KTQBhOxkmVSd3kEiolBF1ioDvtmfukGhRuEtO\",\n    \"created_at\": \"2024-10-16T20:17:48.075Z\",\n    \"type\": \"admin\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/users/671193608521b81e69446e1f",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"users",
+								"671193608521b81e69446e1f"
+							]
+						},
+						"description": "# Delete User\n\nThis endpoint is used to delete a specific user by providing the user ID in the URL.\n\n## Request\n\n- Method: DELETE\n    \n- URL: {{URL}}/users/67101717abfc33ded48ea00d\n    \n\n### Request Body\n\nThis request does not require a request body.\n\n## Response\n\n### 200 OK\n\nThe response will be empty if the user is successfully deleted.\n\n### JSON Schema\n\n``` json\n{\n  \"type\": \"object\",\n  \"properties\": {},\n  \"additionalProperties\": false\n}\n\n ```"
+					},
+					"response": [
+						{
+							"name": "Delete User | netinkamas id",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/users/6711924c702ad7deae4dc89aa",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"users",
+										"6711924c702ad7deae4dc89aa"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "31"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1f-a+v+T5sbJhjmUUrjePC6vTkCOcI\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Oct 2024 22:44:02 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"Error deleting user\"\n}"
+						},
+						{
+							"name": "Delete User | tinkamas delete",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/users/6711924c702ad7deae4dc89a",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"users",
+										"6711924c702ad7deae4dc89a"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "214"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"d6-whgzf7TfY/3+AQK2P4cL89MlsQ4\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Oct 2024 22:44:25 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"_id\": \"6711924c702ad7deae4dc89a\",\n    \"username\": \"trinamas\",\n    \"email\": \"trinamas@gmail.com\",\n    \"password\": \"$2b$10$Y6vywGn0OmsAvBwDOK6nwuTHlNebYd2HR774BN.6fF4rvwvt3dxGC\",\n    \"created_at\": \"2024-10-17T22:40:12.200Z\",\n    \"type\": \"guest\"\n}"
+						}
+					]
+				},
+				{
+					"name": "get All Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/users/",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"users",
+								""
+							]
+						},
+						"description": "# Get Users\n\nThis endpoint is used to retrieve a list of users.\n\n### Request\n\n- No request body is required for this GET request.\n    \n\n### Response\n\n- `users`: An array of user objects containing information such as user ID, name, email, and other details.\n    \n\nExample response:\n\n``` json\n{\n    \"users\": [\n        {\n            \"id\": 1,\n            \"name\": \"John Doe\",\n            \"email\": \"johndoe@example.com\"\n        },\n        {\n            \"id\": 2,\n            \"name\": \"Jane Smith\",\n            \"email\": \"janesmith@example.com\"\n        }\n    ]\n}\n\n ```"
+					},
+					"response": [
+						{
+							"name": "get All Users",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/users",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "640"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"280-CFuyzC29XwCckkaoSGBxHk37qF8\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Oct 2024 22:37:39 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"_id\": \"67101f6c63c35321098a2849\",\n        \"username\": \"Martonas\",\n        \"email\": \"martiss300@gmail.com\",\n        \"password\": \"$2b$10$fWapQcyzwDTgOVV5KTQBhOxkmVSd3kEiolBF1ioDvtmfukGhRuEtO\",\n        \"created_at\": \"2024-10-16T20:17:48.075Z\",\n        \"type\": \"admin\"\n    },\n    {\n        \"_id\": \"6711902302d2006ebfa751c1\",\n        \"username\": \"Antanas\",\n        \"email\": \"Antanas@gmail.com\",\n        \"password\": \"$2b$10$T7yNNIVHtGwtBi377IW3N.PJ7qMU/GNqNDEJ/SOAYA8yWfGu0eNLW\",\n        \"created_at\": \"2024-10-17T22:30:59.295Z\",\n        \"type\": \"mod\"\n    },\n    {\n        \"_id\": \"6711905b02d2006ebfa751c3\",\n        \"username\": \"Petras\",\n        \"email\": \"Petras@gmail.com\",\n        \"password\": \"$2b$10$7RByyC3KJvIxGSUoaStm7O16YMukYP6Np04jjkLKbC1bBvuGFvv2O\",\n        \"created_at\": \"2024-10-17T22:31:55.167Z\",\n        \"type\": \"guest\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "get User by Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/users/67101f6c63c35321098a2849",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"users",
+								"67101f6c63c35321098a2849"
+							]
+						},
+						"description": "This endpoint retrieves the details of a specific user identified by their unique ID. The request does not require a request body, and the user ID is included in the URL path. Upon a successful request, the response will include the user's details such as their name, email, and other relevant information."
+					},
+					"response": [
+						{
+							"name": "get User by Id | nera tokio userio",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/users/67101717abfc33ded48ea00d",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"users",
+										"67101717abfc33ded48ea00d"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "32"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"20-oNiJXJ9R8uCZwqZyuRUgLjFB5xw\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Oct 2024 22:37:50 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"Error fetching users\"\n}"
+						},
+						{
+							"name": "get User by Id | randa useri",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/users/6711924c702ad7deae4dc89a",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"users",
+										"6711924c702ad7deae4dc89a"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "214"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"d6-whgzf7TfY/3+AQK2P4cL89MlsQ4\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Oct 2024 22:42:43 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"_id\": \"6711924c702ad7deae4dc89a\",\n    \"username\": \"trinamas\",\n    \"email\": \"trinamas@gmail.com\",\n    \"password\": \"$2b$10$Y6vywGn0OmsAvBwDOK6nwuTHlNebYd2HR774BN.6fF4rvwvt3dxGC\",\n    \"created_at\": \"2024-10-17T22:40:12.200Z\",\n    \"type\": \"guest\"\n}"
+						},
+						{
+							"name": "get User by Id | netinkamas id formattas",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/users/6711924c702ad7deae4dc89",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"users",
+										"6711924c702ad7deae4dc89"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "34"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"22-zvuYBmhhClZqgLx8jiDCBxrfJHY\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Oct 2024 22:43:06 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"Invalid user ID format\"\n}"
+						},
+						{
+							"name": "get User by Id | user not found",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/users/6711924c702ad7deae4dc89b",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"users",
+										"6711924c702ad7deae4dc89b"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "26"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1a-hq/hT0ORGTkTfyRpVCZ/JB/r8Eg\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Oct 2024 22:43:36 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"User not found\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Tractors",
+			"item": [
+				{
+					"name": "create Tractor",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"trinamas\",\r\n    \"description\": \"Good tractor\",\r\n    \"created_by\": \"67101f6c63c35321098a2849\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/tractors/",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"tractors",
+								""
+							]
+						},
+						"description": "### Add Tractor\n\nThis endpoint allows you to add a new tractor to the system.\n\n#### Request Body\n\n- `name` (string, required): The name of the tractor.\n    \n- `description` (string, required): A description of the tractor.\n    \n- `created_by` (string, required): The ID of the user who created the tractor.\n    \n\n#### Response\n\nThe response will contain the status of the request, along with any relevant data or error messages."
+					},
+					"response": [
+						{
+							"name": "create Tractor | neranda/ negauna tinkamo userio",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\" : \"Fendt\",\r\n    \"description\": \"Good tractor\",\r\n    \"created_by\": \"67101f6c63c35321098a2849\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/tractors/",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"tractors",
+										""
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "40"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"28-XlFplZAA+cWUAL+ezsCSstfIlKI\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Oct 2024 22:51:21 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"Unauthorized. No user found.\"\n}"
+						},
+						{
+							"name": "create Tractor | good",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\" : \"Fendt\",\r\n    \"description\": \"Good tractor\",\r\n    \"created_by\": \"67101f6c63c35321098a2849\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/tractors/",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"tractors",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "118"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"76-4JnwL6u5pcNw1Yj4VZJnD4ICOL8\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Oct 2024 22:59:55 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"name\": \"Fendt\",\n    \"description\": \"Good tractor\",\n    \"created_by\": \"67101f6c63c35321098a2849\",\n    \"_id\": \"671196eb5fc435cd709fd0fc\"\n}"
+						},
+						{
+							"name": "create Tractor | fendt",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\" : \"Fendt 716\",\r\n    \"description\": \"Good tractor\",\r\n    \"created_by\": \"67101f6c63c35321098a2849\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/tractors/",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"tractors",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "122"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"7a-5wSLp5+fTHh7qfgxjsIHGlVTHmc\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Oct 2024 23:00:39 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"name\": \"Fendt 716\",\n    \"description\": \"Good tractor\",\n    \"created_by\": \"67101f6c63c35321098a2849\",\n    \"_id\": \"671197165fc435cd709fd102\"\n}"
+						},
+						{
+							"name": "create Tractor | already exists",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\" : \"MTZ 892\",\r\n    \"description\": \"Good tractor from minsk\",\r\n    \"created_by\": \"67101f6c63c35321098a2849\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/tractors/",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"tractors",
+										""
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "50"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"32-Y8cdYPsTtetvDyew8cAPWqKIP40\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 18 Oct 2024 08:17:30 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"Tractor category with this name exists\"\n}"
+						}
+					]
+				},
+				{
+					"name": "update tractor",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Fendt 716\",\r\n    \"description\": \"Big tractor\",\r\n    \"created_by\": \"67101f6c63c35321098a2849\"\r\n   \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/tractors/671197165fc435cd709fd102",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"tractors",
+								"671197165fc435cd709fd102"
+							]
+						},
+						"description": "This endpoint allows the user to update information about tractors. Upon a successful request, the response will be a JSON schema detailing the structure of the updated tractor data."
+					},
+					"response": [
+						{
+							"name": "update tractor | works",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Fendt 716\",\r\n    \"description\": \"Big tractor\",\r\n    \"created_by\": \"67101f6c63c35321098a2849\"\r\n   \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/tractors/671197165fc435cd709fd102",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"tractors",
+										"671197165fc435cd709fd102"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "121"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"79-4TrqA0FVdiwvXmE1kMYLTstExE0\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Oct 2024 23:02:39 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"_id\": \"671197165fc435cd709fd102\",\n    \"name\": \"Fendt 716\",\n    \"description\": \"Big tractor\",\n    \"created_by\": \"67101f6c63c35321098a2849\"\n}"
+						},
+						{
+							"name": "update tractor | bad id",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Fendt 716\",\r\n    \"description\": \"Big tractor\",\r\n    \"created_by\": \"67101f6c63c35321098a2849\"\r\n   \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/tractors/671197165fc435cd709fd103",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"tractors",
+										"671197165fc435cd709fd103"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "29"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1d-OBWY2gfbsNrFLSysfR/2ywJ7bGo\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Oct 2024 23:03:23 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"Tractor not found\"\n}"
+						},
+						{
+							"name": "update tractor | empty fields",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"\",\r\n    \"description\": \"Big tractor\",\r\n    \"created_by\": \"67101f6c63c35321098a2849\"\r\n   \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/tractors/671197165fc435cd709fd102",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"tractors",
+										"671197165fc435cd709fd102"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "63"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"3f-a76loWD8DQEOv6hBqvSC64FmwUo\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Oct 2024 23:03:39 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"Name and description are required for a full update\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get All Tractors",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/tractors/",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"tractors",
+								""
+							]
+						},
+						"description": "This endpoint makes an HTTP GET request to retrieve a list of tractors. The response for this request can be documented as a JSON schema to describe the structure of the data returned."
+					},
+					"response": [
+						{
+							"name": "Get All Tractors | good",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/tractors/",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"tractors",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "365"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"16d-rDOp4Y9Z2KgENaZ8oX5ld2MP7PU\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Oct 2024 23:01:17 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"_id\": \"671196eb5fc435cd709fd0fc\",\n        \"name\": \"Fendt\",\n        \"description\": \"Good tractor\",\n        \"created_by\": \"67101f6c63c35321098a2849\"\n    },\n    {\n        \"_id\": \"671197165fc435cd709fd102\",\n        \"name\": \"Fendt 716\",\n        \"description\": \"Good tractor\",\n        \"created_by\": \"67101f6c63c35321098a2849\"\n    },\n    {\n        \"_id\": \"671197375fc435cd709fd105\",\n        \"name\": \"trinamas\",\n        \"description\": \"Good tractor\",\n        \"created_by\": \"67101f6c63c35321098a2849\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Get tractor by id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/tractors/671197165fc435cd709fd102",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"tractors",
+								"671197165fc435cd709fd102"
+							]
+						},
+						"description": "\n### GET /tractors/\n\nThis endpoint retrieves a list of tractors.\n\n#### Request\n\nNo request body is required for this endpoint.\n\n#### Response\n\nThe response will be a JSON object with the following properties:\n\n- `tractorId` (string): The unique identifier for the tractor.\n- `model` (string): The model of the tractor.\n- `year` (integer): The manufacturing year of the tractor.\n- `manufacturer` (string): The manufacturer of the tractor.\n\nExample response:\n```json\n{\n  \"tractorId\": \"abc123\",\n  \"model\": \"Tractor Model\",\n  \"year\": 2022,\n  \"manufacturer\": \"Tractor Manufacturer\"\n}\n```\n"
+					},
+					"response": [
+						{
+							"name": "Get tractor by id | good",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/tractors/671197165fc435cd709fd102",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"tractors",
+										"671197165fc435cd709fd102"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "122"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"7a-L/hqgKKvcNwDUN2hurffYgZ1+9U\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Oct 2024 23:01:37 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"_id\": \"671197165fc435cd709fd102\",\n    \"name\": \"Fendt 716\",\n    \"description\": \"Good tractor\",\n    \"created_by\": \"67101f6c63c35321098a2849\"\n}"
+						},
+						{
+							"name": "Get tractor by id | bad id",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/tractors/671197165fc435cd709fd103",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"tractors",
+										"671197165fc435cd709fd103"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "41"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"29-Rw4N5w/LBC5K5XmTZFBPWZMpW4Q\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Oct 2024 23:01:59 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"No Tractor found with this id\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete tractor",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/tractors/671197375fc435cd709fd105",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"tractors",
+								"671197375fc435cd709fd105"
+							]
+						},
+						"description": "### Delete Tractor\n\nThis endpoint is used to delete a tractor from the system.\n\n#### Request Body\n\nThis request does not require a request body.\n\n#### Response\n\n- `status` (number): The HTTP status code of the response.\n    \n- `message` (string): A message confirming the deletion of the tractor."
+					},
+					"response": [
+						{
+							"name": "Delete tractor | good",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/tractors/671197375fc435cd709fd105",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"tractors",
+										"671197375fc435cd709fd105"
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Oct 2024 23:04:49 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Delete tractor | no more tractor",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/tractors/671197375fc435cd709fd105",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"tractors",
+										"671197375fc435cd709fd105"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "29"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1d-OBWY2gfbsNrFLSysfR/2ywJ7bGo\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Oct 2024 23:05:06 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"Tractor not found\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Posts",
+			"item": [
+				{
+					"name": "Get All Posts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/posts/",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"posts",
+								""
+							]
+						},
+						"description": "\nThis endpoint makes an HTTP GET request to retrieve a list of posts. The request does not include a request body, as it is a simple GET request. The response will include an array of post objects, each containing details such as post ID, title, body, and user ID. \n"
+					},
+					"response": [
+						{
+							"name": "Get All Posts | no posts",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/posts/",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"posts",
+										""
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "24"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"18-Me+6Nc43K2GSVMAitYeZdImW27Q\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Oct 2024 23:06:24 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"Server error\"\n}"
+						},
+						{
+							"name": "Get All Posts | good",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/posts/",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"posts",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1022"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"3fe-XGkAi9OCO5WFcMm57Btb28v7ukU\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Oct 2024 23:20:39 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"_id\": \"67119b1aeaf93d78b7d629c9\",\n        \"title\": \"Kaip uzkurti traktoriu\",\n        \"content\": \"Nezinau kaip uzkurti savo nauja Fendt 716\",\n        \"created_at\": \"2024-10-17T23:17:46.669Z\",\n        \"upvotes\": 0,\n        \"downvotes\": 0,\n        \"author\": \"6711902302d2006ebfa751c1\",\n        \"tractor\": \"671197165fc435cd709fd102\"\n    },\n    {\n        \"_id\": \"67119b3ceaf93d78b7d629cd\",\n        \"title\": \"Patinka traktorius\",\n        \"content\": \"Nezinau kaip uzkurti savo nauja Fendt 716\",\n        \"created_at\": \"2024-10-17T23:18:20.924Z\",\n        \"upvotes\": 0,\n        \"downvotes\": 0,\n        \"author\": \"6711902302d2006ebfa751c1\",\n        \"tractor\": \"671197165fc435cd709fd102\"\n    },\n    {\n        \"_id\": \"67119b44eaf93d78b7d629d1\",\n        \"title\": \"Grazus traktorius\",\n        \"content\": \"Nezinau kaip uzkurti savo nauja Fendt 716\",\n        \"created_at\": \"2024-10-17T23:18:28.733Z\",\n        \"upvotes\": 0,\n        \"downvotes\": 0,\n        \"author\": \"6711902302d2006ebfa751c1\",\n        \"tractor\": \"671197165fc435cd709fd102\"\n    },\n    {\n        \"_id\": \"67119b49eaf93d78b7d629d5\",\n        \"title\": \"Trinamas\",\n        \"content\": \"Nezinau kaip uzkurti savo nauja Fendt 716\",\n        \"created_at\": \"2024-10-17T23:18:33.481Z\",\n        \"upvotes\": 0,\n        \"downvotes\": 0,\n        \"author\": \"6711902302d2006ebfa751c1\",\n        \"tractor\": \"671197165fc435cd709fd102\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "get posts by tractor",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/tractor/671197165fc435cd709fd103/posts",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"tractor",
+								"671197165fc435cd709fd103",
+								"posts"
+							]
+						},
+						"description": "\n### Get Tractor Post\nThis endpoint retrieves a specific post related to a tractor.\n\n#### Request\n- Method: GET\n- URL: `{{URL}}/posts/id/tractor`\n\n#### Response\nThe response for this request can be described using the following JSON schema:\n```json\n{\n  \"type\": \"object\",\n  \"properties\": {\n    \"postId\": {\n      \"type\": \"string\"\n    },\n    \"title\": {\n      \"type\": \"string\"\n    },\n    \"content\": {\n      \"type\": \"string\"\n    },\n    \"author\": {\n      \"type\": \"string\"\n    }\n  }\n}\n```\n"
+					},
+					"response": [
+						{
+							"name": "get posts by tractor | good",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/posts/671197165fc435cd709fd102/tractor",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"posts",
+										"671197165fc435cd709fd102",
+										"tractor"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1022"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"3fe-XGkAi9OCO5WFcMm57Btb28v7ukU\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Oct 2024 23:26:12 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"_id\": \"67119b1aeaf93d78b7d629c9\",\n        \"title\": \"Kaip uzkurti traktoriu\",\n        \"content\": \"Nezinau kaip uzkurti savo nauja Fendt 716\",\n        \"created_at\": \"2024-10-17T23:17:46.669Z\",\n        \"upvotes\": 0,\n        \"downvotes\": 0,\n        \"author\": \"6711902302d2006ebfa751c1\",\n        \"tractor\": \"671197165fc435cd709fd102\"\n    },\n    {\n        \"_id\": \"67119b3ceaf93d78b7d629cd\",\n        \"title\": \"Patinka traktorius\",\n        \"content\": \"Nezinau kaip uzkurti savo nauja Fendt 716\",\n        \"created_at\": \"2024-10-17T23:18:20.924Z\",\n        \"upvotes\": 0,\n        \"downvotes\": 0,\n        \"author\": \"6711902302d2006ebfa751c1\",\n        \"tractor\": \"671197165fc435cd709fd102\"\n    },\n    {\n        \"_id\": \"67119b44eaf93d78b7d629d1\",\n        \"title\": \"Grazus traktorius\",\n        \"content\": \"Nezinau kaip uzkurti savo nauja Fendt 716\",\n        \"created_at\": \"2024-10-17T23:18:28.733Z\",\n        \"upvotes\": 0,\n        \"downvotes\": 0,\n        \"author\": \"6711902302d2006ebfa751c1\",\n        \"tractor\": \"671197165fc435cd709fd102\"\n    },\n    {\n        \"_id\": \"67119b49eaf93d78b7d629d5\",\n        \"title\": \"Trinamas\",\n        \"content\": \"Nezinau kaip uzkurti savo nauja Fendt 716\",\n        \"created_at\": \"2024-10-17T23:18:33.481Z\",\n        \"upvotes\": 0,\n        \"downvotes\": 0,\n        \"author\": \"6711902302d2006ebfa751c1\",\n        \"tractor\": \"671197165fc435cd709fd102\"\n    }\n]"
+						},
+						{
+							"name": "get posts by tractor | nera tokio traktoriaus",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/posts/671197165fc435cd709fd103/tractor",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"posts",
+										"671197165fc435cd709fd103",
+										"tractor"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "29"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1d-qYVdBoY+c0NANjLA0VfC0hcPnXI\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Oct 2024 23:29:35 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"Tractor Not Found\"\n}"
+						}
+					]
+				},
+				{
+					"name": "get post by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/posts/67119b1aeaf93d78b7d629c9",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"posts",
+								"67119b1aeaf93d78b7d629c9"
+							]
+						},
+						"description": "\n### Get Post by ID\nThis endpoint retrieves a specific post by its unique ID.\n\n#### Request\n- Method: GET\n- URL: `{{URL}}/posts/id`\n\n#### Response\nThe response will include the details of the post identified by the provided ID.\n"
+					},
+					"response": [
+						{
+							"name": "get post by id | good",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/posts/67119b1aeaf93d78b7d629c9",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"posts",
+										"67119b1aeaf93d78b7d629c9"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "260"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"104-duk9I32gsmkiez9KoUsyIkuRJ1A\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Oct 2024 23:21:01 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"_id\": \"67119b1aeaf93d78b7d629c9\",\n    \"title\": \"Kaip uzkurti traktoriu\",\n    \"content\": \"Nezinau kaip uzkurti savo nauja Fendt 716\",\n    \"created_at\": \"2024-10-17T23:17:46.669Z\",\n    \"upvotes\": 0,\n    \"downvotes\": 0,\n    \"author\": \"6711902302d2006ebfa751c1\",\n    \"tractor\": \"671197165fc435cd709fd102\"\n}"
+						},
+						{
+							"name": "get post by id | not found",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/posts/67119b1aeaf93d78b7d629c8",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"posts",
+										"67119b1aeaf93d78b7d629c8"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "26"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1a-/ECDUP+CNYgYGJ9/6aenG4dQQzY\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Oct 2024 23:21:13 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"Post not found\"\n}"
+						},
+						{
+							"name": "get post by id | broken id",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/posts/67119b1aeaf93d78b7d629c",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"posts",
+										"67119b1aeaf93d78b7d629c"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "24"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"18-Me+6Nc43K2GSVMAitYeZdImW27Q\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Oct 2024 23:21:27 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"Server error\"\n}"
+						}
+					]
+				},
+				{
+					"name": "create post",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Trinamas\",\r\n    \"content\": \"Nezinau kaip uzkurti savo nauja Fendt 716\",\r\n    \"author\": \"6711902302d2006ebfa751c1\",\r\n    \"tractor\": \"671197165fc435cd709fd102\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/posts/",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"posts",
+								""
+							]
+						},
+						"description": "\n### Add a New Post\n\nThis endpoint allows the user to add a new post by sending an HTTP POST request to the specified URL.\n\n#### Request Body\n- `title` (text): The title of the post.\n- `content` (text): The content of the post.\n\n#### Response\nUpon successful creation of the post, the response will include the details of the newly created post, including the unique identifier, title, and content.\n"
+					},
+					"response": [
+						{
+							"name": "create post | empty field",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"\",\r\n    \"content\": \"Nezinau kaip uzkurti savo nauja Fendt 716\",\r\n    \"author\": \"6711902302d2006ebfa751c1\",\r\n    \"tractor\": \"671197165fc435cd709fd102\"\r\n\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/posts/",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"posts",
+										""
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "60"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"3c-CbtE+9kx6Z0OXG/W3T8ZJOnuSu4\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Oct 2024 23:15:48 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"Title, content, author, and tractor are required\"\n}"
+						},
+						{
+							"name": "create post | good",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"Kaip uzkurti traktoriu\",\r\n    \"content\": \"Nezinau kaip uzkurti savo nauja Fendt 716\",\r\n    \"author\": \"6711902302d2006ebfa751c1\",\r\n    \"tractor\": \"671197165fc435cd709fd102\"\r\n\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/posts/",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"posts",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "260"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"104-7zMIYQ7ctA1NlRSp7REwjom+oE8\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Oct 2024 23:17:46 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"title\": \"Kaip uzkurti traktoriu\",\n    \"content\": \"Nezinau kaip uzkurti savo nauja Fendt 716\",\n    \"created_at\": \"2024-10-17T23:17:46.669Z\",\n    \"upvotes\": 0,\n    \"downvotes\": 0,\n    \"author\": \"6711902302d2006ebfa751c1\",\n    \"tractor\": \"671197165fc435cd709fd102\",\n    \"_id\": \"67119b1aeaf93d78b7d629c9\"\n}"
+						},
+						{
+							"name": "create post | trinamas",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"Trinamas\",\r\n    \"content\": \"Nezinau kaip uzkurti savo nauja Fendt 716\",\r\n    \"author\": \"6711902302d2006ebfa751c1\",\r\n    \"tractor\": \"671197165fc435cd709fd102\"\r\n\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/posts/",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"posts",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "246"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"f6-YByn/mnKNSP3DTZt8+TsN+2r7r8\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Oct 2024 23:18:33 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"title\": \"Trinamas\",\n    \"content\": \"Nezinau kaip uzkurti savo nauja Fendt 716\",\n    \"created_at\": \"2024-10-17T23:18:33.481Z\",\n    \"upvotes\": 0,\n    \"downvotes\": 0,\n    \"author\": \"6711902302d2006ebfa751c1\",\n    \"tractor\": \"671197165fc435cd709fd102\",\n    \"_id\": \"67119b49eaf93d78b7d629d5\"\n}"
+						}
+					]
+				},
+				{
+					"name": "update post",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Kaip uzkurti traktoriu Fendt\",\r\n    \"content\": \"Nezinau kaip uzkurti savo nauja Fendt 716\",\r\n    \"created_at\": \"2024-10-17T23:17:46.669Z\",\r\n    \"upvotes\": 0,\r\n    \"downvotes\": 0,\r\n    \"author\": \"6711902302d2006ebfa751c1\",\r\n    \"tractor\": \"671197165fc435cd709fd102\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/posts/67119b1aeaf93d78b7d629c9",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"posts",
+								"67119b1aeaf93d78b7d629c9"
+							]
+						},
+						"description": "\n### Update Post\nThis endpoint is used to update a specific post by providing the post ID in the URL.\n\n#### Request Body\n- `title` (text): The updated title of the post.\n- `content` (text): The updated content of the post.\n\n#### Response\nThe response will include the updated details of the post, including the new title and content.\n"
+					},
+					"response": [
+						{
+							"name": "update post | updated",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"Kaip uzkurti traktoriu Fendt\",\r\n    \"content\": \"Nezinau kaip uzkurti savo nauja Fendt 716\",\r\n    \"created_at\": \"2024-10-17T23:17:46.669Z\",\r\n    \"upvotes\": 0,\r\n    \"downvotes\": 0,\r\n    \"author\": \"6711902302d2006ebfa751c1\",\r\n    \"tractor\": \"671197165fc435cd709fd102\"\r\n\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/posts/67119b1aeaf93d78b7d629c9",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"posts",
+										"67119b1aeaf93d78b7d629c9"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "306"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"132-w2qAGodCTdt9+Mw7we4Nn6B5BtY\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Oct 2024 23:30:19 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"_id\": \"67119b1aeaf93d78b7d629c9\",\n    \"title\": \"Kaip uzkurti traktoriu Fendt\",\n    \"content\": \"Nezinau kaip uzkurti savo nauja Fendt 716\",\n    \"created_at\": \"2024-10-17T23:17:46.669Z\",\n    \"upvotes\": 0,\n    \"downvotes\": 0,\n    \"author\": \"6711902302d2006ebfa751c1\",\n    \"tractor\": \"671197165fc435cd709fd102\",\n    \"updated_at\": \"2024-10-17T23:30:19.634Z\"\n}"
+						},
+						{
+							"name": "update post | post not found",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"Kaip uzkurti traktoriu Fendt\",\r\n    \"content\": \"Nezinau kaip uzkurti savo nauja Fendt 716\",\r\n    \"created_at\": \"2024-10-17T23:17:46.669Z\",\r\n    \"upvotes\": 0,\r\n    \"downvotes\": 0,\r\n    \"author\": \"6711902302d2006ebfa751c1\",\r\n    \"tractor\": \"671197165fc435cd709fd102\"\r\n\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/posts/67119b1aeaf93d78b7d629c8",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"posts",
+										"67119b1aeaf93d78b7d629c8"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "26"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1a-/ECDUP+CNYgYGJ9/6aenG4dQQzY\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Oct 2024 23:30:33 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"Post not found\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete Post",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/posts/67119b49eaf93d78b7d629d6",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"posts",
+								"67119b49eaf93d78b7d629d6"
+							]
+						},
+						"description": "### Delete Post by ID\n\nThis endpoint is used to delete a specific post by its ID.\n\n#### Request\n\n- Method: DELETE\n    \n- URL: `{{URL}}/posts/id`\n    \n\n#### Request Body\n\nThis request does not require a request body.\n\n#### Response\n\nThe response for this request is a JSON schema, which will be returned upon successful deletion of the post."
+					},
+					"response": [
+						{
+							"name": "Delete Post | ok",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/posts/67119b49eaf93d78b7d629d5",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"posts",
+										"67119b49eaf93d78b7d629d5"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "246"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"f6-xN8ieU6Mpzpc5tttUgAOT0DYHik\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Oct 2024 23:31:07 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"_id\": \"67119b49eaf93d78b7d629d5\",\n    \"title\": \"Trinamas\",\n    \"content\": \"Nezinau kaip uzkurti savo nauja Fendt 716\",\n    \"created_at\": \"2024-10-17T23:18:33.481Z\",\n    \"upvotes\": 0,\n    \"downvotes\": 0,\n    \"author\": \"6711902302d2006ebfa751c1\",\n    \"tractor\": \"671197165fc435cd709fd102\"\n}"
+						},
+						{
+							"name": "Delete Post | post not found",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/posts/67119b49eaf93d78b7d629d6",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"posts",
+										"67119b49eaf93d78b7d629d6"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "26"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1a-/ECDUP+CNYgYGJ9/6aenG4dQQzY\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Oct 2024 23:31:18 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"Post not found\"\n}"
+						}
+					]
+				}
+			]
+		}
+	]
+}
