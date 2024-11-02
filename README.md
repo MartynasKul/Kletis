@@ -29,14 +29,19 @@ backend: node.js/express
 
 ## Routing Table
 
+### Atuh Routes
+| Method | Route               | Controller Function    | Description                         |
+|--------|---------------------|------------------------|-------------------------------------|
+| GET    | /login              | loginUser              | Login user                          |
+
 ### Posts Routes
 | Method | Route               | Controller Function    | Description                         |
 |--------|---------------------|------------------------|-------------------------------------|
-| GET    | /posts               | getAllPosts            | Fetch all posts                     |
-| GET    | /posts/:id           | getPostById            | Fetch a specific post by ID         |
-| POST   | /posts               | createPost             | Create a new post                   |
-| PUT    | /posts/:id           | updatePost             | Update a specific post by ID        |
-| DELETE | /posts/:id           | deletePost             | Delete a specific post by ID        |
+| GET    | /posts              | getAllPosts            | Fetch all posts                     |
+| GET    | /posts/:id          | getPostById            | Fetch a specific post by ID         |
+| POST   | /posts              | createPost             | Create a new post                   |
+| PUT    | /posts/:id          | updatePost             | Update a specific post by ID        |
+| DELETE | /posts/:id          | deletePost             | Delete a specific post by ID        |
 
 ### Tractors (Subreddit equivalent) Routes
 | Method | Route                  | Controller Function    | Description                         |
