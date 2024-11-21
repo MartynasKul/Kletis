@@ -9,6 +9,50 @@ const isValidEmail = (email) => {
     return emailRegex.test(email)
 }
 
+//Needs some more added to this
+exports.refreshToken = async (req, res) => {
+    const { refreshToken } = req.body;
+
+    if (!refreshToken) {
+        return res.sendStatus(401);
+    }
+
+    try {
+        // Verify the refresh token
+        const payload = jwt.verify(refreshToken, process.env.JWT_SECRET);
+        const user = await User.findById(payload.userId);
+
+        if (!user || user.refreshToken !== refreshToken) {
+            return res.sendStatus(403);
+        }
+
+        const accessToken = jwt.sign({ userId: user._id, type: user.type }, process.env.JWT_SECRET, { expiresIn: '15m' });
+
+        res.json({ accessToken });
+    } catch (error) {
+        console.error(error);
+        return res.sendStatus(403);
+    }
+};
+
+//Needs some more added to this
+exports.logoutUser = async (req, res) => {
+    const { refreshToken } = req.body;
+
+    if (!refreshToken) {
+        return res.sendStatus(204);
+    }
+
+    const user = await User.findOne({ refreshToken });
+
+    if (user) {
+        user.refreshToken = null;
+        await user.save();
+    }
+
+    res.sendStatus(204); // No content
+};
+
 // GET all users
 
 exports.getAllUsers = async (req, res) => {
@@ -109,6 +153,11 @@ exports.updateUser = async (req, res) => {
             return res.status(422).json({ error: 'Missing required fields: username, email, or type' });
         }
 
+        if (req.user.id !== req.params.id && req.user.type !== 'admin') {
+            return res.status(403).json({ error: 'You do not have permission to update this user' });
+        }
+
+
         // Validate user type
         if (!validTypes.includes(type)) {
             return res.status(422).json({ error: 'Invalid user type. Valid types are: admin, mod, guest' });
@@ -128,17 +177,28 @@ exports.updateUser = async (req, res) => {
             updatedData.password = await bcrypt.hash(password, salt);
         }
 
-        // Perform full update (replacing the resource)
-        const updatedUser = await User.findByIdAndUpdate(
-            req.params.id,
-            updatedData,
-            { new: true, runValidators: true, overwrite: true } // Use `overwrite: true` for full replacement
-        );
+        const existingUser = await User.findById(req.params.id);
+        if (!existingUser) {
+            return res.status(404).json({ error: 'User not found' });
+        }
 
-        if (updatedUser) {
-            res.json(updatedUser);
-        } else {
-            res.status(404).json({ error: 'User not found' });
+        if (type && type !== existingUser.type) {
+            if (req.user.type !== 'admin') {
+                return res.status(403).json({error: 'You do not have permission to change the user type'});
+            }
+
+            // Perform full update (replacing the resource)
+            const updatedUser = await User.findByIdAndUpdate(
+                req.params.id,
+                updatedData,
+                {new: true, runValidators: true, overwrite: true} // Use `overwrite: true` for full replacement
+            );
+
+            if (updatedUser) {
+                res.json(updatedUser);
+            } else {
+                res.status(404).json({error: 'User not found'})
+            }
         }
     } catch (error) {
         res.status(500).json({ error: 'Error updating user' });
@@ -148,6 +208,13 @@ exports.updateUser = async (req, res) => {
 // DELETE a user
 exports.deleteUser = async (req, res) => {
     try{
+
+        if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+            return res.status(404).json({ error: 'User not found' })
+        }
+        if (req.user.id !== id && req.user.type !== 'admin') {
+            return res.status(403).json({ error: 'You do not have permission to delete this user' });
+        }
         const deletedUser = await User.findByIdAndDelete(req.params.id)
 
         if(deletedUser){
