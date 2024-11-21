@@ -47,7 +47,7 @@ app.use(express.json());
 
 //Authorization routes
 app.get('/login', usersController.loginUser)
-
+app.get('/logout', usersController.logoutUser)
 //Swagger
 
 app.use('/api-docs/users', swaggerUI.serveFiles(usersApiSpec), swaggerUI.setup(usersApiSpec));
@@ -88,6 +88,9 @@ app.get('/users/:id/', usersController.getUserById);
 app.post('/users/', usersController.createUser);
 app.put('/users/:id/', usersController.updateUser);
 app.delete('/users/:id/', usersController.deleteUser);
+
+console.log('JWT_SECRET:', process.env.JWT_SECRET);
+
 /*
 * tractors/{tId}/posts/{pid}/comments/{cid}  | TARKIM DONE
 

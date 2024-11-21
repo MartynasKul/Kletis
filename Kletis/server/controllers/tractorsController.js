@@ -2,6 +2,7 @@
 const Post = require('../models/Post')
 const User = require('../models/User')
 const Tractor = require('../models/Tractor')
+const mongoose = require("mongoose");
 
 //GET all tractors
 exports.getAllTractors = async (req, res) => {
@@ -46,66 +47,39 @@ exports.getTractorById = async (req, res) => {
 
 // POST a new tractor
 exports.createTractor = async (req, res) => {
-    //try {
-    //    const { title, description } = req.body;
-//
-    //    // Assuming req.user._id holds the ID of the logged-in user (tractor creator)
-    //    const created_by = req.user._id;
-//
-    //    const newTractor = new Tractor({
-    //        title,
-    //        description,
-    //        created_by,
-    //    });
-//
-    //    await newTractor.save();
-    //    res.status(201).json(newTractor); // Send back the created tractor
-    //} catch (error) {
-    //    console.error(error);
-    //    res.status(500).json({ error: 'Failed to create tractor' });
-    //}
-    //try {
-    //    const { title, description, created_by } = req.body; // Now expecting created_by from the request body
-//
-    //    if (!created_by) {
-    //        return res.status(400).json({ error: 'User ID (created_by) is required' });
-    //    }
-//
-    //    const newTractor = new Tractor({
-    //        title,
-    //        description,
-    //        created_by,
-    //    });
-//
-    //    await newTractor.save();
-    //    res.status(201).json(newTractor); // Send back the created tractor
-    //} catch (error) {
-    //    console.error(error);
-    //    res.status(500).json({ error: 'Failed to create tractor' });
-    //}
     try {
         const { name, description, created_by } = req.body;
 
-        let tractor = Tractor.find(name)
-        if(tractor){
-            return res.status(403).json({error: 'Tractor category with this name exists'})       }
-        // Check if the 'created_by' field is present and valid
+        // Check if 'created_by' is present
         if (!created_by) {
             return res.status(422).json({ error: 'User ID (created_by) is required' });
         }
 
-        const user = await User.findById(created_by); // Validate if the user exists
+        // Validate 'created_by' as a valid ObjectId
+        if (!mongoose.Types.ObjectId.isValid(created_by)) {
+            return res.status(400).json({ error: 'Invalid User ID' });
+        }
+
+        // Check if the user exists
+        const user = await User.findById(created_by);
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
         }
 
-        // Proceed to create the tractor if everything is valid
+        // Check if a tractor with the same name already exists
+        const existingTractor = await Tractor.findOne({ name });
+        if (existingTractor) {
+            return res.status(403).json({ error: 'Tractor category with this name exists' });
+        }
+
+        // Create the new tractor
         const newTractor = new Tractor({
             name,
             description,
             created_by,
         });
 
+        // Save and respond with the created tractor
         await newTractor.save();
         res.status(201).json(newTractor);
     } catch (error) {
@@ -168,18 +142,34 @@ exports.deleteTractor = async (req, res) => {
     try {
         const { id } = req.params;
 
-        // Find and delete the tractor by ID
+        // Validate ObjectId
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(404).json({ error: 'Tractor not found' });
+        }
+
+        // Fetch the tractor to be deleted
+        const tractorDeletion = await Tractor.findById(id);
+        if (!tractorDeletion) {
+            return res.status(404).json({ error: 'Tractor not found' });
+        }
+
+        // Check permissions
+        if (tractorDeletion.created_by.toString() !== req.user.id && req.user.type !== 'admin') {
+            return res.status(403).json({ error: 'You do not have permission to delete this tractor' });
+        }
+
+        // Delete the tractor
         const tractor = await Tractor.findByIdAndDelete(id);
         if (!tractor) {
             return res.status(404).json({ error: 'Tractor not found' });
         }
 
-        // Optional: You can cascade delete associated posts or comments here if needed
-        await Post.deleteMany({ tractor: id }); // Delete all posts associated with this tractor
+        // Cascade delete associated posts
+        await Post.deleteMany({ tractor: id });
 
         res.status(204).send(); // No content, just success status
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Failed to delete tractor' });
     }
-}
+};

@@ -7,22 +7,14 @@ exports.getPostsByTractor = async (req, res) => {
     try {
         const { expand } = req.query;
 
-
-        //console.log('Request parameters:', req.params);
-
-
         const tractorId = req.params.tractorId;
-        //console.log('Tractor ID:', tractorId);
-
 
         const tractorCheck = await Tractor.findById(tractorId); // Await the query
-        //console.log('Tractor Check:', tractorCheck);
 
         if (!tractorCheck) {
             return res.status(404).send({ error: 'Tractor Not Found' });
         }
 
-        // Query posts using the tractorId
         let postQuery = Post.find({ tractor: tractorId });
 
         if (expand && expand.includes('tractor')) {
@@ -165,54 +157,83 @@ exports.createPost = async (req, res) => {
 
 // PUT (Update) an existing Post
 exports.updatePost = async (req, res) => {
-    try{
-        const {
-            title, content, author, tractor
-        } = req.body
+    try {
+        const { title, content, author, tractor } = req.body;
+        const { id } = req.params;
 
+        // Validate ObjectId
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(404).json({ error: 'Invalid Post ID' });
+        }
 
+        // Fetch the post
+        const post = await Post.findById(id);
+        if (!post) {
+            return res.status(404).json({ error: 'Post not found' });
+        }
+
+        // Check permissions
+        if (req.user.id !== post.author.toString() && req.user.type !== 'admin' && req.user.type !== 'mod') {
+            return res.status(403).json({ error: 'You do not have permission to update this post' });
+        }
+
+        // Validate required fields
         if (!title || !content || !author || !tractor) {
             return res.status(422).json({ error: 'Title, content, author, and tractor are required for a full update' });
         }
 
-        if(tractor){
-            const trac = await Tractor.findById(tractor)
-            if(!trac){
-                return res.status(404).json({error: 'Tractor not found'})
+        // Validate tractor existence
+        if (tractor) {
+            const trac = await Tractor.findById(tractor);
+            if (!trac) {
+                return res.status(404).json({ error: 'Tractor not found' });
             }
         }
 
-        const updatedPost = await Post.findByIdAndUpdate(
-            req.params.id,
-            {title, content, author, tractor, updated_at: new Date(),},
-            {new: true, runValidators: true}
-        )
+        // Update the post
+        post.title = title;
+        post.content = content;
+        post.author = author;
+        post.tractor = tractor;
+        post.updated_at = new Date();
 
-        if(updatedPost){
-            res.json(updatedPost)
-        }
-        else{
-            res.status(404).json({error: 'Post not found'})
-        }
-    }
-    catch(error){
-        res.status(400).json({error: 'Bad Request'})
+        await post.save();
+
+        res.json(post);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Failed to update post' });
     }
 }
 
 // DELETE a post
 
 exports.deletePost = async (req, res) => {
-    try{
-        const deletedPost = await Post.findByIdAndDelete(req.params.id)
-        if(deletedPost){
-            res.json(deletedPost)
+    try {
+        const { id } = req.params;
+
+        // Validate ObjectId
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(404).json({ error: 'Invalid Post ID' });
         }
-        else{
-            res.status(404).json({error: 'Post not found'})
+
+        // Fetch the post
+        const post = await Post.findById(id);
+        if (!post) {
+            return res.status(404).json({ error: 'Post not found' });
         }
-    }
-    catch(error){
-        res.status(500).json({error: 'Server error'})
+
+        // Check permissions
+        if (req.user.id !== post.author.toString() && req.user.type !== 'admin' && req.user.type !== 'mod') {
+            return res.status(403).json({ error: 'You do not have permission to delete this post' });
+        }
+
+        // Delete the post
+        const deletedPost = await Post.findByIdAndDelete(id);
+
+        res.status(200).json(deletedPost); // Return deleted post info
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Server error' });
     }
 }
