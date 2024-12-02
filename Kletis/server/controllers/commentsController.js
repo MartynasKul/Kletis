@@ -133,6 +133,7 @@ exports.createComment = async (req, res) => {
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
         }
+        
 
         // Check if the post exists
         const postObj = await Post.findById(post);
