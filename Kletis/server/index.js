@@ -48,6 +48,7 @@ app.use(express.json());
 //Authorization routes
 app.get('/login', usersController.loginUser)
 app.get('/logout', usersController.logoutUser)
+app.post('/register', usersController.registerUser);
 //Swagger
 
 app.use('/api-docs/users', swaggerUI.serveFiles(usersApiSpec), swaggerUI.setup(usersApiSpec));

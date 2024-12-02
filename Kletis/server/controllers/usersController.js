@@ -2,6 +2,7 @@ const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
+require('dotenv').config();
 
 
 const isValidEmail = (email) => {
@@ -9,48 +10,52 @@ const isValidEmail = (email) => {
     return emailRegex.test(email)
 }
 
-//Needs some more added to this
 exports.refreshToken = async (req, res) => {
     const { refreshToken } = req.body;
 
     if (!refreshToken) {
-        return res.sendStatus(401);
+        return res.status(401).json({ error: 'Refresh token is required' });
     }
 
     try {
         // Verify the refresh token
-        const payload = jwt.verify(refreshToken, process.env.JWT_SECRET);
+        const payload = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET); // Use a separate secret for refresh tokens
         const user = await User.findById(payload.userId);
 
         if (!user || user.refreshToken !== refreshToken) {
-            return res.sendStatus(403);
+            return res.status(403).json({ error: 'Invalid refresh token' });
         }
 
-        const accessToken = jwt.sign({ userId: user._id, type: user.type }, process.env.JWT_SECRET, { expiresIn: '15m' });
+        // Generate a new access token
+        const accessToken = jwt.sign(
+            { userId: user._id, type: user.type },
+            process.env.JWT_SECRET,
+            { expiresIn: '15m' }
+        );
 
         res.json({ accessToken });
     } catch (error) {
-        console.error(error);
-        return res.sendStatus(403);
+        console.error('Error in refreshToken:', error);
+        return res.status(403).json({ error: 'Invalid or expired refresh token' });
     }
 };
 
-//Needs some more added to this
+
 exports.logoutUser = async (req, res) => {
-    const { refreshToken } = req.body;
+    const { userId } = req.body;
 
-    if (!refreshToken) {
-        return res.sendStatus(204);
+    try {
+        const user = await User.findById(userId);
+        if (user) {
+            user.refreshToken = null; // Clear the refresh token
+            await user.save();
+        }
+
+        res.status(200).json({ message: 'Logged out successfully' });
+    } catch (error) {
+        console.error('Error logging out:', error);
+        res.status(500).json({ error: 'Error logging out' });
     }
-
-    const user = await User.findOne({ refreshToken });
-
-    if (user) {
-        user.refreshToken = null;
-        await user.save();
-    }
-
-    res.sendStatus(204); // No content
 };
 
 // GET all users
@@ -66,27 +71,102 @@ exports.getAllUsers = async (req, res) => {
 }
 
 exports.loginUser = async (req, res) => {
-    const {email, password} = req.body;
-    try{
-        const user = await User.findOne({email})
-        if(!user){
-            return res.status(400).json({error: 'Invalid email'})
+    const { email, password } = req.body;
+
+    try {
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(400).json({ error: 'Invalid email' });
         }
+
         const isMatch = await bcrypt.compare(password, user.password);
-        if(!isMatch){
-            return res.status(404).json({error: 'Invalid password'})
+        if (!isMatch) {
+            return res.status(400).json({ error: 'Invalid password' });
         }
 
-        const token = jwt.sign({id: user._id, type: user.type }, process.env.JWT_SECRET, {expiresIn: '1h'})
+        // Generate access token and refresh token
+        const accessToken = jwt.sign(
+            { userId: user._id, type: user.type },
+            process.env.JWT_SECRET,
+            { expiresIn: '15m' }
+        );
 
-        res.json({token})
+        const refreshToken = jwt.sign(
+            { userId: user._id },
+            process.env.REFRESH_TOKEN_SECRET,
+            { expiresIn: '7d' } // Longer expiration for refresh tokens
+        );
 
+        // Save the refresh token in the database
+        user.refreshToken = refreshToken;
+        await user.save();
+
+        res.json({ accessToken, refreshToken });
+    } catch (error) {
+        console.error('Error logging in:', error);
+        res.status(500).json({ error: 'Error logging in' });
     }
-    catch(error){
-        console.log(error)
-        res.status(500).json({error: 'Error logging in'})
+};
+
+
+
+exports.registerUser = async (req, res) => {
+    try {
+        const { username, email, password, type } = req.body;
+
+        // Validate required fields
+        if (!username || !email || !password || !type) {
+            return res.status(422).json({ error: 'All fields (username, email, password, type) are required' });
+        }
+
+        // Validate email format
+        if (!isValidEmail(email)) {
+            return res.status(422).json({ error: 'Invalid email format' });
+        }
+
+        // Validate user type
+        const validTypes = ['admin', 'mod', 'guest'];
+        if (!validTypes.includes(type)) {
+            return res.status(422).json({ error: 'Invalid user type. Valid types are: admin, mod, guest' });
+        }
+
+        // Check if the email is already registered
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({ error: 'Email already exists' });
+        }
+
+        // Hash the password
+       // const salt = await bcrypt.genSalt(10);
+       // const hashedPassword = await bcrypt.hash(password, salt);
+
+        // Create the new user
+        const newUser = new User({
+            username,
+            email,
+            password,
+            type,
+            created_at: new Date(),
+        });
+
+        await newUser.save();
+
+        // Generate a JWT token for the registered user
+        const token = jwt.sign(
+            { id: newUser._id, type: newUser.type },
+            process.env.JWT_SECRET,
+            { expiresIn: '1h' }
+        );
+
+        // Respond with the user data and token
+        res.status(201).json({ user: newUser, token });
+    } catch (error) {
+        console.error('Error registering user:', error.message);
+        res.status(500).json({ error: 'Error registering user' });
     }
-}
+};
+``
+
 // GET a single user by ID
 
 exports.getUserById = async (req, res) => {
