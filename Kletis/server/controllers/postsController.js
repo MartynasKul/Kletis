@@ -1,239 +1,214 @@
 const Post = require("../models/Post");
 const Tractor = require("../models/Tractor");
 const User = require("../models/User");
+const mongoose = require("mongoose");
 
-// GET posts for tractor
-exports.getPostsByTractor = async (req, res) => {
-    try {
-        const { expand } = req.query;
-
-        const tractorId = req.params.tractorId;
-
-        const tractorCheck = await Tractor.findById(tractorId); // Await the query
-
-        if (!tractorCheck) {
-            return res.status(404).send({ error: 'Tractor Not Found' });
-        }
-
-        let postQuery = Post.find({ tractor: tractorId });
-
-        if (expand && expand.includes('tractor')) {
-            postQuery = postQuery.populate('tractor');
-        }
-        if (expand && expand.includes('author')) {
-            postQuery = postQuery.populate('author');
-        }
-
-        const posts = await postQuery; // Await the result of the query
-        res.json(posts); // Send back the posts
-    } catch (error) {
-        console.error('Error fetching posts by tractor:', error);
-        res.status(500).json({ error: 'Server error' });
+// Utility function to handle expand
+const applyExpand = (query, expand) => {
+  if (expand) {
+    const expandFields = expand.split(",");
+    if (expandFields.includes("tractor")) {
+      query = query.populate("tractor", "name description");
     }
-}
-
-// GET posts for tractor
-exports.getPostsByUser = async (req, res) => {
-    try {
-        const { expand } = req.query;
-
-
-        //console.log('Request parameters:', req.params);
-
-
-        const userId = req.params.userId;
-        //console.log('Tractor ID:', tractorId);
-
-
-        const userCheck = await User.findById(userId); // Await the query
-        //console.log('Tractor Check:', tractorCheck);
-
-        if (!userCheck) {
-            return res.status(404).send({ error: 'User Not Found' });
-        }
-
-        // Query posts using the tractorId
-        let postQuery = Post.find({ author: userId });
-
-        if (expand && expand.includes('tractor')) {
-            postQuery = postQuery.populate('tractor');
-        }
-        if (expand && expand.includes('author')) {
-            postQuery = postQuery.populate('author');
-        }
-
-        const posts = await postQuery; // Await the result of the query
-        res.json(posts); // Send back the posts
-    } catch (error) {
-        console.error('Error fetching posts by user:', error);
-        res.status(500).json({ error: 'Server error' });
+    if (expandFields.includes("author")) {
+      query = query.populate("author", "username email");
     }
-}
+  }
+  return query;
+};
 
-// GET all posts with tractor info
+// GET all posts with expand options
 exports.getAllPosts = async (req, res) => {
-    try {
-        const { expand } = req.query;
-        let postsQuery = Post.find();
+  try {
+    const { expand } = req.query;
+    let postsQuery = Post.find();
 
-        if (expand && expand.includes('tractor')) {
-            postsQuery = postsQuery.populate('tractor');
-        }
-        if (expand && expand.includes('author')) {
-            postsQuery = postsQuery.populate('author');
-        }
+    // Apply expand logic
+    postsQuery = applyExpand(postsQuery, expand);
 
-        const posts = await postsQuery; // Await the result
-        res.json(posts);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Server error' });
+    const posts = await postsQuery;
+    res.json(posts);
+  } catch (error) {
+    console.error("Error fetching all posts:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
+// GET posts by tractor
+exports.getPostsByTractor = async (req, res) => {
+  try {
+    const { expand } = req.query;
+    const tractorId = req.params.tractorId;
+
+    if (!mongoose.Types.ObjectId.isValid(tractorId)) {
+      return res.status(400).json({ error: "Invalid Tractor ID" });
     }
-}
 
-// GET a single post by ID with tractor info
+    const tractorCheck = await Tractor.findById(tractorId);
+    if (!tractorCheck) {
+      return res.status(404).send({ error: "Tractor Not Found" });
+    }
 
+    let postQuery = Post.find({ tractor: tractorId });
+
+    // Apply expand logic
+    postQuery = applyExpand(postQuery, expand);
+
+    const posts = await postQuery;
+    res.json(posts);
+  } catch (error) {
+    console.error("Error fetching posts by tractor:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
+// GET posts by user
+exports.getPostsByUser = async (req, res) => {
+  try {
+    const { expand } = req.query;
+    const userId = req.params.userId;
+
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(400).json({ error: "Invalid User ID" });
+    }
+
+    const userCheck = await User.findById(userId);
+    if (!userCheck) {
+      return res.status(404).send({ error: "User Not Found" });
+    }
+
+    let postQuery = Post.find({ author: userId });
+
+    // Apply expand logic
+    postQuery = applyExpand(postQuery, expand);
+
+    const posts = await postQuery;
+    res.json(posts);
+  } catch (error) {
+    console.error("Error fetching posts by user:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
+// GET a single post by ID
 exports.getPostById = async (req, res) => {
-    try{
-        const {expand} = req.query
-        let postQuery = Post.findById(req.params.id)
+  try {
+    const { expand } = req.query;
+    const postId = req.params.id;
 
-        if (expand && expand.includes('tractor')) {
-            postQuery = postQuery.populate('tractor')
-        }
-        if(expand && expand.includes('author')){
-            postQuery = postQuery.populate('author')
-        }
-
-        const posT = await postQuery
-        if(posT){
-            res.json(posT)
-        } else{
-            res.status(404).json({error: 'Post not found'})
-        }
+    if (!mongoose.Types.ObjectId.isValid(postId)) {
+      return res.status(400).json({ error: "Invalid Post ID" });
     }
-    catch(error){
-        console.error(error);
-        res.status(500).json({error: 'Server error'})
-    }
-}
 
-// PUT a new post
+    let postQuery = Post.findById(postId);
+
+    // Apply expand logic
+    postQuery = applyExpand(postQuery, expand);
+
+    const post = await postQuery;
+    if (!post) {
+      return res.status(404).json({ error: "Post not found" });
+    }
+
+    res.json(post);
+  } catch (error) {
+    console.error("Error fetching post by ID:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
+// Create a new post
 exports.createPost = async (req, res) => {
-    try{
-        const {
-            title, content, author, tractor
-        } = req.body
+  try {
+    const { title, content, author, tractor } = req.body;
 
-
-        if (!title || !content || !author || !tractor) {
-            return res.status(422).json({ error: 'Title, content, author, and tractor are required' });
-        }
-
-        const auThor = await User.findById(author)
-        const trac = await Tractor.findById(tractor)
-        if(!auThor){
-            return res.status(404).json({error: 'User not found'})
-        }
-        if(!trac){
-            return res.status(404).json({error: 'Tractor not found'})
-        }
-
-        const newPost = new Post({
-            title,
-            content,
-            created_at: new Date(),
-            author: auThor._id , // Use the user ID
-            tractor: trac._id
-        })
-        await newPost.save()
-        res.status(201).json(newPost)
+    // Validate inputs
+    if (!title || !content || !author || !tractor) {
+      return res
+        .status(422)
+        .json({ error: "Title, content, author, and tractor are required" });
     }
-    catch(error){
-        console.error('Error creating post:', error.message); // Log the specific error message
-        res.status(400).json({error: 'Bad Request'})
-    }
-}
 
-// PUT (Update) an existing Post
+    if (!mongoose.Types.ObjectId.isValid(author)) {
+      return res.status(400).json({ error: "Invalid User ID" });
+    }
+    if (!mongoose.Types.ObjectId.isValid(tractor)) {
+      return res.status(400).json({ error: "Invalid Tractor ID" });
+    }
+
+    const authorCheck = await User.findById(author);
+    const tractorCheck = await Tractor.findById(tractor);
+
+    if (!authorCheck) {
+      return res.status(404).json({ error: "Author not found" });
+    }
+    if (!tractorCheck) {
+      return res.status(404).json({ error: "Tractor not found" });
+    }
+
+    const newPost = new Post({
+      title,
+      content,
+      created_at: new Date(),
+      author,
+      tractor,
+    });
+
+    await newPost.save();
+    res.status(201).json(newPost);
+  } catch (error) {
+    console.error("Error creating post:", error.message);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
+// Update an existing post
 exports.updatePost = async (req, res) => {
-    try {
-        const { title, content, author, tractor } = req.body;
-        const { id } = req.params;
+  try {
+    const { title, content, author, tractor } = req.body;
+    const { id } = req.params;
 
-        // Validate ObjectId
-        if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(404).json({ error: 'Invalid Post ID' });
-        }
-
-        // Fetch the post
-        const post = await Post.findById(id);
-        if (!post) {
-            return res.status(404).json({ error: 'Post not found' });
-        }
-
-        // Check permissions
-        if (req.user.id !== post.author.toString() && req.user.type !== 'admin' && req.user.type !== 'mod') {
-            return res.status(403).json({ error: 'You do not have permission to update this post' });
-        }
-
-        // Validate required fields
-        if (!title || !content || !author || !tractor) {
-            return res.status(422).json({ error: 'Title, content, author, and tractor are required for a full update' });
-        }
-
-        // Validate tractor existence
-        if (tractor) {
-            const trac = await Tractor.findById(tractor);
-            if (!trac) {
-                return res.status(404).json({ error: 'Tractor not found' });
-            }
-        }
-
-        // Update the post
-        post.title = title;
-        post.content = content;
-        post.author = author;
-        post.tractor = tractor;
-        post.updated_at = new Date();
-
-        await post.save();
-
-        res.json(post);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Failed to update post' });
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ error: "Invalid Post ID" });
     }
-}
 
-// DELETE a post
+    const post = await Post.findById(id);
+    if (!post) {
+      return res.status(404).json({ error: "Post not found" });
+    }
 
+    post.title = title || post.title;
+    post.content = content || post.content;
+    post.author = author || post.author;
+    post.tractor = tractor || post.tractor;
+    post.updated_at = new Date();
+
+    await post.save();
+    res.json(post);
+  } catch (error) {
+    console.error("Error updating post:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
+// Delete a post
 exports.deletePost = async (req, res) => {
-    try {
-        const { id } = req.params;
+  try {
+    const { id } = req.params;
 
-        // Validate ObjectId
-        if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(404).json({ error: 'Invalid Post ID' });
-        }
-
-        // Fetch the post
-        const post = await Post.findById(id);
-        if (!post) {
-            return res.status(404).json({ error: 'Post not found' });
-        }
-
-        // Check permissions
-        if (req.user.id !== post.author.toString() && req.user.type !== 'admin' && req.user.type !== 'mod') {
-            return res.status(403).json({ error: 'You do not have permission to delete this post' });
-        }
-
-        // Delete the post
-        const deletedPost = await Post.findByIdAndDelete(id);
-
-        res.status(200).json(deletedPost); // Return deleted post info
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Server error' });
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ error: "Invalid Post ID" });
     }
-}
+
+    const post = await Post.findById(id);
+    if (!post) {
+      return res.status(404).json({ error: "Post not found" });
+    }
+
+    const deletedPost = await Post.findByIdAndDelete(id);
+    res.status(200).json(deletedPost);
+  } catch (error) {
+    console.error("Error deleting post:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+};

@@ -1,22 +1,33 @@
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
 
+// Authentication Middleware
 const auth = (req, res, next) => {
-    const token = req.header('authorization')?.replace('Bearer ', '');
+  try {
+    // Check for the token in the cookies
+    const token = req.cookies?.accessToken;
 
-    if(!token){
-        return res.status(401).json({error: 'Token not found'});
+    if (!token) {
+      return res.status(401).json({ error: 'Access denied. No token provided.' });
     }
 
-    try{
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        console.log(decoded)
-        req.user = decoded
-        next()
-    }
-    catch(error){
-        console.log(error)
-        res.status(400).json({error: 'Invalid token'})
-    }
-}
+    // Verify the token
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded; // Attach the user data to the request object for further use
+    next(); // Proceed to the next middleware or route handler
+  } catch (error) {
+    console.error('Auth Middleware Error:', error.message);
 
-module.exports = auth
+    // Return specific errors for debugging
+    if (error.name === 'TokenExpiredError') {
+      return res.status(403).json({ error: 'Token has expired. Please log in again.' });
+    }
+    if (error.name === 'JsonWebTokenError') {
+      return res.status(403).json({ error: 'Invalid token. Please log in again.' });
+    }
+
+    // Generic error response
+    res.status(403).json({ error: 'Authentication failed.' });
+  }
+};
+
+module.exports = auth;

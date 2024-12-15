@@ -11,52 +11,52 @@ const isValidEmail = (email) => {
 }
 
 exports.refreshToken = async (req, res) => {
-    const { refreshToken } = req.body;
-
+    const refreshToken = req.cookies?.refreshToken;  
+  
     if (!refreshToken) {
-        return res.status(401).json({ error: 'Refresh token is required' });
+      return res.status(403).json({ error: 'Refresh token is required' });
     }
-
+  
     try {
-        // Verify the refresh token
-        const payload = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET); // Use a separate secret for refresh tokens
-        const user = await User.findById(payload.userId);
-
-        if (!user || user.refreshToken !== refreshToken) {
-            return res.status(403).json({ error: 'Invalid refresh token' });
-        }
-
-        // Generate a new access token
-        const accessToken = jwt.sign(
-            { userId: user._id, type: user.type },
-            process.env.JWT_SECRET,
-            { expiresIn: '15m' }
-        );
-
-        res.json({ accessToken });
+      const decoded = jwt.verify(refreshToken, process.env.JWT_SECRET); 
+      
+      const newAccessToken = jwt.sign(
+        { id: decoded.id, type: decoded.type },
+        process.env.JWT_SECRET,
+        { expiresIn: '1h' } 
+      );
+  
+  
+      res.cookie('accessToken', newAccessToken, {
+        httpOnly: true,  
+        secure: process.env.NODE_ENV === 'production', 
+        sameSite: 'none',
+        maxAge: 60 * 60 * 1000,  
+      });
+  
+      res.json({token: newAccessToken});
+  
     } catch (error) {
-        console.error('Error in refreshToken:', error);
-        return res.status(403).json({ error: 'Invalid or expired refresh token' });
+      res.status(403).json({ error: 'Invalid or expired refresh token' });
     }
-};
+  };
 
-
-exports.logoutUser = async (req, res) => {
-    const { userId } = req.body;
-
-    try {
-        const user = await User.findById(userId);
-        if (user) {
-            user.refreshToken = null; // Clear the refresh token
-            await user.save();
-        }
-
-        res.status(200).json({ message: 'Logged out successfully' });
-    } catch (error) {
-        console.error('Error logging out:', error);
-        res.status(500).json({ error: 'Error logging out' });
+  exports.logoutUser = async (req, res) => {
+    const { refreshToken } = req.body; 
+  
+    if (!refreshToken) {
+      return res.sendStatus(204);
     }
-};
+  
+    const user = await User.findOne({ refreshToken });
+  
+    if (user) {
+      user.refreshToken = null;
+      await user.save();
+    }
+  
+    res.sendStatus(204);
+  };
 
 // GET all users
 
@@ -70,43 +70,57 @@ exports.getAllUsers = async (req, res) => {
     }
 }
 
-exports.loginUser = async (req, res) => {
+const generateTokens = (user) => {
+    const accessToken = jwt.sign({ id: user._id, type: user.type }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const refreshToken = jwt.sign({ id: user._id, type: user.type }, process.env.JWT_SECRET, { expiresIn: '7d' });
+  
+    return { accessToken, refreshToken };
+  };
+  
+
+ exports.loginUser = async (req, res) => {
     const { email, password } = req.body;
-
+  
     try {
-        const user = await User.findOne({ email });
-        if (!user) {
-            return res.status(400).json({ error: 'Invalid email' });
-        }
-
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) {
-            return res.status(400).json({ error: 'Invalid password' });
-        }
-
-        // Generate access token and refresh token
-        const accessToken = jwt.sign(
-            { userId: user._id, type: user.type },
-            process.env.JWT_SECRET,
-            { expiresIn: '15m' }
-        );
-
-        const refreshToken = jwt.sign(
-            { userId: user._id },
-            process.env.REFRESH_TOKEN_SECRET,
-            { expiresIn: '7d' } // Longer expiration for refresh tokens
-        );
-
-        // Save the refresh token in the database
-        user.refreshToken = refreshToken;
-        await user.save();
-
-        res.json({ accessToken, refreshToken });
+      const user = await User.findOne({ email });
+      if (!user) {
+        return res.status(400).json({ error: 'Invalid email or password.' });
+      }
+  
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (!isMatch) {
+        return res.status(400).json({ error: 'Invalid email or password.' });
+      }
+  
+      const { accessToken, refreshToken } = generateTokens(user);
+  
+      res
+        .cookie('accessToken', accessToken, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: 'none',
+          maxAge: 60 * 60 * 1000, 
+        })
+        .cookie('refreshToken', refreshToken, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: 'none',
+          maxAge: 7 * 24 * 60 * 60 * 1000, 
+        })
+        .json({
+          token: accessToken,
+          user: {
+            
+            _id: user._id,
+            username: user.username,
+            email: user.email,
+            type: user.type,
+          },
+        });
     } catch (error) {
-        console.error('Error logging in:', error);
-        res.status(500).json({ error: 'Error logging in' });
+      res.status(500).json({ error: 'Error logging in.' });
     }
-};
+  };
 
 
 

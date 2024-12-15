@@ -8,7 +8,7 @@ const User = require('./User');
 const tractorSchema = new mongoose.Schema({
     name: { type: String, required: true, unique: true }, // negalima tokio pat traktoriaus subreddito (poklecio iks de de) nebus du belarus 892 pokleciai lmao
     description: { type: String, required: true },
-    created_by: { type: mongoose.Schema.Types.ObjectId, ref: 'User' } // reference i poklecio kureja
+    created_by: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true } // reference i poklecio kureja
 
 }, {versionKey: false})
 
