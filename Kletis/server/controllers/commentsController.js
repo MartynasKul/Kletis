@@ -1,104 +1,111 @@
-const Comment = require('../models/Comment')
-const User = require('../models/User')
-const Post = require('../models/Post')
-const postController = require('../controllers/postsController')
+const Comment = require('../models/Comment');
+const User = require('../models/User');
+const Post = require('../models/Post');
+const mongoose = require('mongoose');
 
-// Get all comments for specific post
+// Helper function to apply expansion
+function applyExpand(query, expand, fields) {
+    if (expand) {
+        fields.forEach((field) => {
+            if (expand.includes(field)) {
+                query.populate(field);
+            }
+        });
+    }
+    return query;
+}
+
+// Helper function for error handling
+function handleError(res, status, message) {
+    res.status(status).json({ error: message });
+}
+
+// Get all comments for a specific post
 exports.getCommentsByPost = async (req, res) => {
     try {
         const { expand } = req.query;
-        if(!mongoose.Types.ObjectId.isValid(req.params.postID)){
-            return res.status(404).send({ error: 'Post not found' });
+        const postId = req.params.postID;
+
+        if (!mongoose.Types.ObjectId.isValid(postId)) {
+            return handleError(res, 404, 'Post not found');
         }
-        let commentsQuery = Comment.find({ post: req.params.postID });
-        if (expand && expand.includes('post')) {
-            commentsQuery = commentsQuery.populate('post');
-        }
-        if (expand && expand.includes('author')) {
-            commentsQuery = commentsQuery.populate('author');
-        }
+
+        let commentsQuery = Comment.find({ post: postId });
+        commentsQuery = applyExpand(commentsQuery, expand, ['post', 'author']);
+
         const comments = await commentsQuery;
         res.json(comments);
-    }
-    catch (error) {
+    } catch (error) {
         console.error(error);
-        res.status(500).json({ error: 'Server error' });
+        handleError(res, 500, 'Server error');
     }
-}
+};
 
-// GET all comments
+// Get all comments
 exports.getComments = async (req, res) => {
-    try{
-        const {expand} = req.query
-        let commentsQuery = Comment.find()
-        if(expand && expand.includes('post')){
-            commentsQuery = commentsQuery.populate('post')
-        }
-        if(expand && expand.includes('author')){
-            commentsQuery = commentsQuery.populate('author')
-        }
-        const comments = await commentsQuery
-        res.json(comments)
-    }
-    catch(error){
-        console.log(error)
-        res.status(500).json({error: 'Server error'})
-    }
-}
+    try {
+        const { expand } = req.query;
 
-//GET a comment by id
+        let commentsQuery = Comment.find();
+        commentsQuery = applyExpand(commentsQuery, expand, ['post', 'author']);
+
+        const comments = await commentsQuery;
+
+        console.error('Expand:', expand);
+        console.error('Query:', commentsQuery.getQuery());
+
+        res.json(comments);
+    } catch (error) {
+        console.error(error);
+        handleError(res, 500, 'Server error');
+    }
+};
+
+// Get a comment by ID
 exports.getCommentById = async (req, res) => {
-    try{
-        const {expand} = req.query
-        let commentsQuerry = Comment.findById(req.params.id)
+    try {
+        const { expand } = req.query;
+        const commentId = req.params.id;
 
-        if(expand && expand.includes('post')){
-            commentsQuerry = commentsQuerry.populate('post')
-        }
-        if(expand && expand.includes('author')){
-            commentsQuerry = commentsQuerry.populate('author')
+        if (!mongoose.Types.ObjectId.isValid(commentId)) {
+            return handleError(res, 404, 'Invalid Comment ID');
         }
 
-        const comment = await commentsQuerry
-        if(comment){
-            res.json(comment)
+        let commentQuery = Comment.findById(commentId);
+        commentQuery = applyExpand(commentQuery, expand, ['post', 'author']);
+
+        const comment = await commentQuery;
+
+        if (comment) {
+            res.json(comment);
+        } else {
+            handleError(res, 404, 'Comment not found');
         }
-        else{
-            res.status(404).json({error: 'Comment not found'})
-        }
+    } catch (error) {
+        console.error(error);
+        handleError(res, 500, 'Server error');
     }
-    catch(error){
-        res.status(500).json({error: 'Server error'})
-    }
-}
+};
 
-// GET all comments by a specific user
+// Get all comments by a specific user
 exports.getCommentsByUser = async (req, res) => {
     try {
         const { expand } = req.query;
         const userId = req.params.userId;
 
-        if(userId.length !== 24){
-            return res.status(400).json({error: 'Bad or non-existent user id'})
+        if (!mongoose.Types.ObjectId.isValid(userId)) {
+            return res.status(400).json({ error: 'Invalid User ID' });
         }
-        const userquery = User.findById(userId)
 
-        if(!userquery){
-            return res.status(404).json({error: 'User ID does not exist'})
+        const userExists = await User.exists({ _id: userId });
+        if (!userExists) {
+            return res.status(404).json({ error: 'User not found' });
         }
 
         let commentsQuery = Comment.find({ author: userId });
-
-
-        if (expand && expand.includes('post')) {
-            commentsQuery = commentsQuery.populate('post');
-        }
-        if (expand && expand.includes('author')) {
-            commentsQuery = commentsQuery.populate('author');
-        }
+        commentsQuery = applyExpand(commentsQuery, expand, ['post', 'author']);
 
         const comments = await commentsQuery;
-
 
         if (comments.length === 0) {
             return res.status(404).json({ error: 'No comments found for this user' });
@@ -109,118 +116,89 @@ exports.getCommentsByUser = async (req, res) => {
         console.error(error);
         res.status(500).json({ error: 'Server error' });
     }
-}
+};
 
-// POST a new comment
-
+// Create a new comment
 exports.createComment = async (req, res) => {
     try {
         const { content, post, author } = req.body;
 
-        // Validate required fields
-        if (!content) {
-            return res.status(422).json({ error: 'Comment content cannot be empty' });
-        }
-        if (!mongoose.Types.ObjectId.isValid(author)) {
-            return res.status(400).json({ error: 'Invalid User ID' });
-        }
-        if (!mongoose.Types.ObjectId.isValid(post)) {
-            return res.status(400).json({ error: 'Invalid Post ID' });
+        if (!content || !mongoose.Types.ObjectId.isValid(post) || !mongoose.Types.ObjectId.isValid(author)) {
+            return handleError(res, 422, 'Invalid input data');
         }
 
-        // Check if the user exists
-        const user = await User.findById(author);
-        if (!user) {
-            return res.status(404).json({ error: 'User not found' });
-        }
-        
+        const postExists = await Post.exists({ _id: post });
+        const userExists = await User.exists({ _id: author });
 
-        // Check if the post exists
-        const postObj = await Post.findById(post);
-        if (!postObj) {
-            return res.status(404).json({ error: 'Post not found' });
+        if (!postExists || !userExists) {
+            return handleError(res, 404, 'Post or user not found');
         }
 
-        // Create the comment
-        const newComment = new Comment({
+        const newComment = await Comment.create({
             content,
             post,
             author,
-            created_at: new Date(),
         });
 
-        await newComment.save();
-        res.status(201).json(newComment); // Send back the created comment
+        res.status(201).json(newComment);
     } catch (error) {
         console.error('Error creating comment:', error.message);
-        res.status(500).json({ error: 'Failed to create comment' });
+        handleError(res, 500, 'Failed to create comment');
     }
-}
+};
 
-// PUT (update) an existing comment
-
+// Update a comment
 exports.updateComment = async (req, res) => {
     try {
-        const { content } = req.body;
         const { id } = req.params;
+        const { content } = req.body;
 
-        // Validate required fields
-        if (!content) {
-            return res.status(422).json({ error: 'Comment content is required' });
-        }
-        if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(404).json({ error: 'Invalid Comment ID' });
+        if (!content || !mongoose.Types.ObjectId.isValid(id)) {
+            return handleError(res, 422, 'Invalid input data');
         }
 
-        // Fetch the comment
         const comment = await Comment.findById(id);
         if (!comment) {
-            return res.status(404).json({ error: 'Comment not found' });
+            return handleError(res, 404, 'Comment not found');
         }
 
-        // Check permissions
         if (comment.author.toString() !== req.user.id && req.user.type !== 'admin') {
-            return res.status(403).json({ error: 'You do not have permission to update this comment' });
+            return handleError(res, 403, 'Unauthorized');
         }
 
-        // Update the comment
         comment.content = content;
         comment.updated_at = new Date();
 
         await comment.save();
-        res.status(200).json(comment);
+        res.json(comment);
     } catch (error) {
         console.error('Error updating comment:', error.message);
-        res.status(500).json({ error: 'Failed to update comment' });
+        handleError(res, 500, 'Failed to update comment');
     }
-}
+};
 
-// DELETE a comment
+// Delete a comment
 exports.deleteComment = async (req, res) => {
     try {
         const { id } = req.params;
 
-        // Validate Comment ID
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(404).json({ error: 'Invalid Comment ID' });
+            return handleError(res, 404, 'Invalid Comment ID');
         }
 
-        // Fetch the comment
         const comment = await Comment.findById(id);
         if (!comment) {
-            return res.status(404).json({ error: 'Comment not found' });
+            return handleError(res, 404, 'Comment not found');
         }
 
-        // Check permissions
         if (comment.author.toString() !== req.user.id && req.user.type !== 'admin') {
-            return res.status(403).json({ error: 'You do not have permission to delete this comment' });
+            return handleError(res, 403, 'Unauthorized');
         }
 
-        // Delete the comment
         await comment.deleteOne();
-        res.status(204).send(); // No content, just success status
+        res.status(204).send();
     } catch (error) {
         console.error('Error deleting comment:', error.message);
-        res.status(500).json({ error: 'Failed to delete comment' });
+        handleError(res, 500, 'Failed to delete comment');
     }
-}
+};

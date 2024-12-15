@@ -3,7 +3,12 @@ const express = require('express');
 const mongoose = require('mongoose');
 const swaggerUI = require('swagger-ui-express');
 const YAML = require('yamljs');
-//const path = require('path');
+const cookieParser = require('cookie-parser');
+const cors = require('cors');
+// const multer = require('multer');
+// const storage = multer.memoryStorage(); 
+
+
 
 //Controllers
 const usersController = require('./controllers/usersController');
@@ -22,28 +27,32 @@ const mergedApi = YAML.load(path.join(__dirname, './OpenAPI/mergedOpenApi.yml'))
 //Authorization
 const auth = require('./services/auth');
 const authorize = require('./services/authorize');
-//routes
-//const postRoutes = require('./routes/postRoutes');
-//const commentRoutes = require('./routes/commentRoutes');
-//const userRoutes = require('./routes/userRoutes');
-//const tractorRoutes = require('./routes/tractorRoutes');
 
-const dbURI = 'mongodb+srv://martonas:martonas@kletis.i1pta.mongodb.net/Kletis?retryWrites=true&w=majority&appName=Kletis'
+const allowedOrigins = [
+    // 'http://game-forum-gamma.vercel.app',
+    // 'https://game-forum-gamma.vercel.app',
+    'http://localhost:5173', // Add local frontend during dev
+    'http://localhost:3000', // For Postman
+];
 
-mongoose.connect(dbURI, {})
+
+
+mongoose.connect(process.env.MONGODB_URI , {})
     .then(() => console.log('MongoDB Connected'))
     .catch((error) => console.log('Error connecting to MongoDB:', error))
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.use(cookieParser());
 app.use(express.json());
 
-//routes
-//app.use('/posts', postRoutes);
-//app.use('/tractors', tractorRoutes);
-//app.use('/users', userRoutes);
-//app.use('/comments', commentRoutes);
+app.use(cors({
+    origin: allowedOrigins,
+    credentials: true, 
+}));
+
+
 
 //Authorization routes
 app.get('/login', usersController.loginUser)
@@ -90,17 +99,9 @@ app.post('/users/', usersController.createUser);
 app.put('/users/:id/', usersController.updateUser);
 app.delete('/users/:id/', usersController.deleteUser);
 
-console.log('JWT_SECRET:', process.env.JWT_SECRET);
+// console.log('JWT_SECRET:', process.env.JWT_SECRET);
+// console.log('JWTREFRESH', process.env.REFRESH_TOKEN_SECRET)
 
-/*
-* tractors/{tId}/posts/{pid}/comments/{cid}  | TARKIM DONE
-
-/*
-* sujungti openapi specs
-* praplesti openapi specs
-* hierarchiniai linkai
-* */
-// Start the server
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`)
 })
