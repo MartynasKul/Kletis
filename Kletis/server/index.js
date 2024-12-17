@@ -33,6 +33,9 @@ const allowedOrigins = [
     // 'https://game-forum-gamma.vercel.app',
     'http://localhost:5173', // Add local frontend during dev
     'http://localhost:3000', // For Postman
+    'https://kletisforum.onrender.com',
+    'http://kletisforum.onrender.com'
+
 ];
 
 
@@ -55,8 +58,8 @@ app.use(cors({
 
 
 //Authorization routes
-app.get('/login', usersController.loginUser)
-app.get('/logout', usersController.logoutUser)
+app.post('/login', usersController.loginUser)
+// app.get('/logout', usersController.logoutUser)
 app.post('/register', usersController.registerUser);
 //Swagger
 
