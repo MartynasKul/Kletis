@@ -9,19 +9,19 @@ const postSchema = new mongoose.Schema(
     updated_at: { type: Date },
     upvotes: { type: Number, default: 0 },
     downvotes: { type: Number, default: 0 },
-    author: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-    tractor: { type: mongoose.Schema.Types.ObjectId, ref: "Tractor", required: true },
+    author: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true }, // posto kurejas
+    tractor: { type: mongoose.Schema.Types.ObjectId, ref: "Tractor", required: true }, // poklecio pavadinimas
   },
   { versionKey: false }
 );
 
-// Update `updated_at` timestamp before updates
+// Middleware: Update "updated_at" before updates
 postSchema.pre("findOneAndUpdate", async function (next) {
   this.set({ updated_at: Date.now() });
   next();
 });
 
-// Log creation
+// Post-save hook: Log post creation
 postSchema.post("save", function (doc, next) {
   console.log(
     `Post '${doc.title}' created in tractor '${doc.tractor}' by user '${doc.author}'`
@@ -29,19 +29,19 @@ postSchema.post("save", function (doc, next) {
   next();
 });
 
-// Upvote method
+// Method: Upvote a post
 postSchema.methods.upvote = async function () {
   this.upvotes += 1;
   await this.save();
 };
 
-// Downvote method
+// Method: Downvote a post
 postSchema.methods.downvote = async function () {
   this.downvotes += 1;
   await this.save();
 };
 
-// Delete related comments before deleting the post
+// Middleware: Cascade delete comments when post is deleted
 postSchema.pre("findOneAndDelete", async function (next) {
   const postId = this.getQuery()["_id"];
   await Comment.deleteMany({ post: postId });
