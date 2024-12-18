@@ -131,20 +131,24 @@ exports.registerUser = async (req, res) => {
         const { username, email, password, type } = req.body;
 
         // Validate required fields
+
+        // console.log((username as String) + " " + (email as String) + " " + (password as String) + " " + (type as String));
+        // console.log("unga"+(req.body))
         if (!username || !email || !password || !type) {
             return res.status(422).json({ error: 'All fields (username, email, password, type) are required' });
         }
+
 
         // Validate email format
         if (!isValidEmail(email)) {
             return res.status(422).json({ error: 'Invalid email format' });
         }
 
-        // Validate user type
-        const validTypes = ['admin', 'mod', 'guest'];
-        if (!validTypes.includes(type)) {
-            return res.status(422).json({ error: 'Invalid user type. Valid types are: admin, mod, guest' });
-        }
+        // // Validate user type
+        // const validTypes = ['admin', 'mod', 'guest'];
+        // if (!validTypes.includes(type)) {
+        //     return res.status(422).json({ error: 'Invalid user type. Valid types are: admin, mod, guest' });
+        // }
 
         // Check if the email is already registered
         const existingUser = await User.findOne({ email });
@@ -242,21 +246,22 @@ exports.createUser = async (req, res) => {
 exports.updateUser = async (req, res) => {
     try {
         const { username, email, password, type } = req.body;
-        const validTypes = ['admin', 'mod', 'guest'];
+        const id = req.params.id;
 
-        // Check for missing required fields
-        if (!username || !email || !type) {
-            return res.status(422).json({ error: 'Missing required fields: username, email, or type' });
+        // Validate ObjectId
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(404).json({ error: 'Invalid user ID' });
         }
 
-        if (req.user.id !== req.params.id && req.user.type !== 'admin') {
+        // Permission Check
+        if (req.user.id !== id && req.user.type !== 'admin') {
             return res.status(403).json({ error: 'You do not have permission to update this user' });
         }
 
+        const validTypes = ['admin', 'mod', 'guest'];
 
-        // Validate user type
-        if (!validTypes.includes(type)) {
-            return res.status(422).json({ error: 'Invalid user type. Valid types are: admin, mod, guest' });
+        if (!username || !email || !type || !validTypes.includes(type)) {
+            return res.status(422).json({ error: 'Invalid input data' });
         }
 
         // Validate email format
@@ -264,62 +269,53 @@ exports.updateUser = async (req, res) => {
             return res.status(422).json({ error: 'Invalid email format' });
         }
 
-        // Prepare updated data
         let updatedData = { username, email, type };
 
-        // Hash the password if provided
+        // Hash password if provided
         if (password) {
             const salt = await bcrypt.genSalt(10);
             updatedData.password = await bcrypt.hash(password, salt);
         }
 
-        const existingUser = await User.findById(req.params.id);
-        if (!existingUser) {
+        const updatedUser = await User.findByIdAndUpdate(id, updatedData, { new: true });
+
+        if (!updatedUser) {
             return res.status(404).json({ error: 'User not found' });
         }
 
-        if (type && type !== existingUser.type) {
-            if (req.user.type !== 'admin') {
-                return res.status(403).json({error: 'You do not have permission to change the user type'});
-            }
-
-            // Perform full update (replacing the resource)
-            const updatedUser = await User.findByIdAndUpdate(
-                req.params.id,
-                updatedData,
-                {new: true, runValidators: true, overwrite: true} // Use `overwrite: true` for full replacement
-            );
-
-            if (updatedUser) {
-                res.json(updatedUser);
-            } else {
-                res.status(404).json({error: 'User not found'})
-            }
-        }
+        res.json(updatedUser);
     } catch (error) {
+        console.error('Error updating user:', error.message);
         res.status(500).json({ error: 'Error updating user' });
     }
-}
+};
+
 
 // DELETE a user
 exports.deleteUser = async (req, res) => {
-    try{
+    try {
+        const id = req.params.id; // Extract id from params
 
-        if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-            return res.status(404).json({ error: 'User not found' })
+        // Validate ObjectId
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(404).json({ error: 'User not found' });
         }
+
+        // Permission Check
         if (req.user.id !== id && req.user.type !== 'admin') {
             return res.status(403).json({ error: 'You do not have permission to delete this user' });
         }
-        const deletedUser = await User.findByIdAndDelete(req.params.id)
 
-        if(deletedUser){
-            res.json(deletedUser)
-        } else{
-            res.status(404).json({error: 'User not found'})
+        // Delete the user
+        const deletedUser = await User.findByIdAndDelete(id);
+
+        if (deletedUser) {
+            return res.status(200).json({ message: 'User successfully deleted', deletedUser });
+        } else {
+            return res.status(404).json({ error: 'User not found' });
         }
-    } catch(error){
-        console.log(error)
-        res.status(500).json({ error: 'Error deleting user'})
+    } catch (error) {
+        // console.error('Error deleting user:', error.message);
+        return res.status(500).json({ error: 'Error deleting user' });
     }
-}
+};

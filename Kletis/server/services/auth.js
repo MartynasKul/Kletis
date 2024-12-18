@@ -1,9 +1,8 @@
 const jwt = require('jsonwebtoken');
 
-// Authentication Middleware
 const auth = (req, res, next) => {
   try {
-    // Check for the token in the cookies
+    console.log('Cookies received:', req.cookies); // Debug cookies
     const token = req.cookies?.accessToken;
 
     if (!token) {
@@ -12,12 +11,12 @@ const auth = (req, res, next) => {
 
     // Verify the token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded; // Attach the user data to the request object for further use
-    next(); // Proceed to the next middleware or route handler
+    console.log('Decoded Token:', decoded); // Log decoded token
+    req.user = decoded; // Attach the user data to req.user
+    next();
   } catch (error) {
     console.error('Auth Middleware Error:', error.message);
 
-    // Return specific errors for debugging
     if (error.name === 'TokenExpiredError') {
       return res.status(403).json({ error: 'Token has expired. Please log in again.' });
     }
@@ -25,7 +24,6 @@ const auth = (req, res, next) => {
       return res.status(403).json({ error: 'Invalid token. Please log in again.' });
     }
 
-    // Generic error response
     res.status(403).json({ error: 'Authentication failed.' });
   }
 };
