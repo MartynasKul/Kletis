@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema({
     password: { type: String, required: true },
     refreshToken: { type: String }, // Add this field
     created_at: { type: Date, default: Date.now },
-    type: {type: String, enum: ['admin', 'mod', 'guest'], required: true},
+    type: {type: String, enum: ['admin', 'mod', 'guest'],  required: true},
 }, {versionKey: false})
 
 userSchema.pre('save', async function (next) {
@@ -23,7 +23,7 @@ userSchema.pre('save', async function (next) {
 userSchema.pre('findOneAndDelete', async function (next) {
     const userId = this.getQuery()["_id"]; // Get the user ID from the query
 
-    console.log('Deleting comments for user:', userId);
+    // console.log('Deleting comments for user:', userId);
 
     // Delete all comments where the "author" field matches the userId
     await Comment.deleteMany({ author: userId });

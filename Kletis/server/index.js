@@ -96,14 +96,12 @@ app.delete('/tractors/:id/', auth, authorize(['admin', 'dev', 'guest']), tractor
 
 
 // User routes
-app.get('/users/', usersController.getAllUsers);
-app.get('/users/:id/', usersController.getUserById);
-app.post('/users/', usersController.createUser);
-app.put('/users/:id/', usersController.updateUser);
-app.delete('/users/:id/', usersController.deleteUser);
+app.get('/users/', auth, authorize(['admin', 'dev', 'guest']), usersController.getAllUsers);
+app.get('/users/:id/', auth, authorize(['admin', 'dev', 'guest']),usersController.getUserById);
+app.post('/users/', auth, authorize(['admin', 'dev', 'guest']), usersController.createUser);
+app.put('/users/:id/', auth, authorize(['admin', 'dev', 'guest']), usersController.updateUser);
+app.delete('/users/:id/', auth, authorize(['admin', 'dev', 'guest']), usersController.deleteUser);
 
-// console.log('JWT_SECRET:', process.env.JWT_SECRET);
-// console.log('JWTREFRESH', process.env.REFRESH_TOKEN_SECRET)
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`)
