@@ -54,8 +54,12 @@ app.use(cors({
     origin: allowedOrigins,
     credentials: true, 
 }));
+app.use(express.urlencoded({extended:true}))
 
 
+app.get('/test-auth', auth, (req, res) => {
+    res.json({ user: req.user });
+  });
 
 //Authorization routes
 app.post('/login', usersController.loginUser)
