@@ -52,12 +52,27 @@ const PORT = process.env.PORT || 3000;
 
 app.use(cors({
     origin: allowedOrigins,
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true, 
-}));
+  }));
+  
+  app.use(express.json());
+  app.use(express.urlencoded({ extended: true }));
+  app.use(cookieParser());
+  
+  app.options('*', cors()); // Handle preflight requests
+  
 
-app.use(express.json());
-app.use(cookieParser());
-app.use(express.urlencoded({extended:true}))
+
+// app.use(cors({
+//     origin: allowedOrigins,
+//     credentials: true, 
+// }));
+
+// app.use(express.json());
+// app.use(cookieParser());
+// app.use(express.urlencoded({extended:true}))
 
 // app.get('/test-auth', auth, (req, res) => {
 //     res.json({ user: req.user });
@@ -112,8 +127,8 @@ app.delete('/users/:id/', auth, authorize(['admin', 'dev', 'guest']), usersContr
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`)
 })
-
-app.use((error, req, res, next) => {
-    console.error(error.stack);
-    res.status(500).send('Something broke!');
-});
+  // Example error-handling middleware with CORS headers
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).set('Access-Control-Allow-Origin', req.headers.origin).send('Something broke!');
+ });
