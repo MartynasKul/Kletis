@@ -1,4 +1,65 @@
 # Klėtis
+# Klėtis Forum
+
+## Overview
+
+**Klėtis** is a RESTful API built with **Node.js** and **Express** that enables users to manage tractors, categories, posts, and comments. This API supports user roles (admin, moderator, and guest) for managing forum content while ensuring proper data relationships and integrity.
+
+## Features
+
+- **User Management**:
+  - Create, read, update, and delete users.
+  - User roles: `admin`, `mod`, `guest`.
+- **Tractor Management**:
+  - Manage tractor categories.
+  - Link posts to specific tractor categories.
+- **Post Management**:
+  - Create posts with titles, content, and vote counts (upvotes and downvotes).
+  - Pre-save hooks for timestamps and cascading deletion of comments when a post is deleted.
+- **Comment Management**:
+  - Add, update, and delete comments linked to posts.
+- **Voting System**:
+  - Upvote and downvote functionality for posts.
+- **Query Expansion**:
+  - Include related fields (e.g., posts under a specific tractor category).
+
+## Prerequisites
+
+- **Node.js**: v14 or above
+- **MongoDB**: A MongoDB database (local or cloud, e.g., MongoDB Atlas)
+
+## Getting Started
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/MartynasKul/Kletis.git
+cd Kletis
+```
+
+### 2. Install Dependencies
+
+```bash
+npm install
+```
+
+### 3. Environment Setup
+
+Create a `.env` file and add the following variables:
+
+```
+MONGODB_URI=<your-mongodb-connection-string>
+PORT=3000
+```
+
+### 4. Run the Program
+
+```bash
+npm run dev
+```
+
+
+
 Saityno taikomųjų programų projektavimas
 
 Ž. Ūkio forumas Klėtis
