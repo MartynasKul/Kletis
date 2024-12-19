@@ -29,10 +29,10 @@ const auth = require('./services/auth');
 const authorize = require('./services/authorize');
 
 const allowedOrigins = [
-    'https://kletis-gaiq0ljt8-martynas-projects-4e90f798.vercel.app/',
-    'https://kletis.vercel.app/',
-    'http://kletis.vercel.app/',
-    'https://kletis-gaiq0ljt8-martynas-projects-4e90f798.vercel.app/',
+    'https://kletis-gaiq0ljt8-martynas-projects-4e90f798.vercel.app',
+    'https://kletis.vercel.app',
+    'http://kletis.vercel.app',
+    'https://kletis-gaiq0ljt8-martynas-projects-4e90f798.vercel.app',
     'http://localhost:5173', // Add local frontend during dev
     'http://localhost:3000', // For Postman
     'https://kletisforum.onrender.com',
