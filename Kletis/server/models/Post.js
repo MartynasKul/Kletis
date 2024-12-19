@@ -23,9 +23,9 @@ postSchema.pre("findOneAndUpdate", async function (next) {
 
 // Post-save hook: Log post creation
 postSchema.post("save", function (doc, next) {
-  console.log(
-    `Post '${doc.title}' created in tractor '${doc.tractor}' by user '${doc.author}'`
-  );
+  // console.log(
+  //   `Post '${doc.title}' created in tractor '${doc.tractor}' by user '${doc.author}'`
+  // );
   next();
 });
 

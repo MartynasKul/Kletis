@@ -37,7 +37,7 @@ commentSchema.pre('findOneAndUpdate', function (next) {
 
 // Optional post-save hook for logging
 commentSchema.post('save', function (doc, next) {
-    console.log(`Comment created by user '${doc.author}' on post '${doc.post}'`);
+    // console.log(`Comment created by user '${doc.author}' on post '${doc.post}'`);
     next();
 });
 
