@@ -31,6 +31,7 @@ const authorize = require('./services/authorize');
 const allowedOrigins = [
     'https://kletis.vercel.app/',
     'http://kletis.vercel.app/',
+    'https://kletis-gaiq0ljt8-martynas-projects-4e90f798.vercel.app/',
     'http://localhost:5173', // Add local frontend during dev
     'http://localhost:3000', // For Postman
     'https://kletisforum.onrender.com',
@@ -47,15 +48,15 @@ mongoose.connect(process.env.MONGODB_URI , {})
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(cookieParser());
-app.use(express.json());
 
 app.use(cors({
     origin: allowedOrigins,
     credentials: true, 
 }));
-app.use(express.urlencoded({extended:true}))
 
+app.use(express.json());
+app.use(cookieParser());
+app.use(express.urlencoded({extended:true}))
 
 // app.get('/test-auth', auth, (req, res) => {
 //     res.json({ user: req.user });
