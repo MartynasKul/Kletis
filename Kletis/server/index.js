@@ -29,7 +29,6 @@ const auth = require('./services/auth');
 const authorize = require('./services/authorize');
 
 const allowedOrigins = [
-    // 'http://game-forum-gamma.vercel.app',
     'https://kletis.vercel.app/',
     'http://kletis.vercel.app/',
     'http://localhost:5173', // Add local frontend during dev
