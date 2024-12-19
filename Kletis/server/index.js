@@ -30,7 +30,8 @@ const authorize = require('./services/authorize');
 
 const allowedOrigins = [
     // 'http://game-forum-gamma.vercel.app',
-    // 'https://game-forum-gamma.vercel.app',
+    'https://kletis.vercel.app/',
+    'http://kletis.vercel.app/',
     'http://localhost:5173', // Add local frontend during dev
     'http://localhost:3000', // For Postman
     'https://kletisforum.onrender.com',
@@ -57,9 +58,9 @@ app.use(cors({
 app.use(express.urlencoded({extended:true}))
 
 
-app.get('/test-auth', auth, (req, res) => {
-    res.json({ user: req.user });
-  });
+// app.get('/test-auth', auth, (req, res) => {
+//     res.json({ user: req.user });
+//   });
 
 //Authorization routes
 app.post('/login', usersController.loginUser)

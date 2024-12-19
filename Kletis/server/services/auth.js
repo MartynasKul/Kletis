@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 
 const auth = (req, res, next) => {
   try {
-    console.log('Cookies received:', req.cookies); // Debug cookies
+    // console.log('Cookies received:', req.cookies); // Debug cookies
     const token = req.cookies?.accessToken;
 
     if (!token) {
@@ -11,11 +11,11 @@ const auth = (req, res, next) => {
 
     // Verify the token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    console.log('Decoded Token:', decoded); // Log decoded token
+    // console.log('Decoded Token:', decoded); // Log decoded token
     req.user = decoded; // Attach the user data to req.user
     next();
   } catch (error) {
-    console.error('Auth Middleware Error:', error.message);
+    // console.error('Auth Middleware Error:', error.message);
 
     if (error.name === 'TokenExpiredError') {
       return res.status(403).json({ error: 'Token has expired. Please log in again.' });
