@@ -32,7 +32,8 @@ backend: node.js/express
 ### Atuh Routes
 | Method | Route               | Controller Function    | Description                         |
 |--------|---------------------|------------------------|-------------------------------------|
-| GET    | /login              | loginUser              | Login user                          |
+| POST   | /login              | loginUser              | Login user                          |
+| POST   | /register           | registerUser           | Register user                       |
 
 ### Posts Routes
 | Method | Route               | Controller Function    | Description                         |
