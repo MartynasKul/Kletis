@@ -21,7 +21,7 @@ svečias
 administratorius 
 moderatorius
 
-frontend: react/vue.js/Blazor
+frontend: vue.js su typescript
 backend: node.js/express
 
 
